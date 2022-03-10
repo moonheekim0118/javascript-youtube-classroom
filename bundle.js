@@ -850,7 +850,7 @@ var requestYoutubeSearch = /*#__PURE__*/function () {
             nextPageToken = _args2.length > 1 && _args2[1] !== undefined ? _args2[1] : '';
             _context2.prev = 2;
             _context2.next = 5;
-            return request("https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&q=".concat(encodeURIComponent(keyword), "&maxResults=").concat(_Constants_Setting__WEBPACK_IMPORTED_MODULE_2__.CLASS_ROOM_SETTING.MAX_VIDEO_NUMBER, "&key=").concat("AIzaSyBga-nLg5rloL8il0MN5NxFInjjyuE8B2g", "&pageToken=").concat(nextPageToken), {
+            return request("https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&q=".concat(encodeURIComponent(keyword), "&maxResults=").concat(_Constants_Setting__WEBPACK_IMPORTED_MODULE_2__.CLASS_ROOM_SETTING.MAX_VIDEO_NUMBER, "&key=").concat("AIzaSyB77_WyZvKvxR9pkS_JVEHk83Cr-JoHTGY", "&pageToken=").concat(nextPageToken), {
               method: 'GET'
             });
 
@@ -916,7 +916,8 @@ var ERROR_MESSAGE = Object.freeze({
 });
 var ACTION_TYPE = Object.freeze({
   UPDATE_SEARCH_KEYWORD: 'UPDATE_SEARCH_KEYWORD',
-  UPDATE_SEARCH_RESULT: 'UPDATE_SEARCH_RESULT'
+  UPDATE_SEARCH_RESULT: 'UPDATE_SEARCH_RESULT',
+  UPDATE_SEARCH_LOADING_STATUS: 'UPDATE_SEARCH_LOADING_STATUS'
 });
 
 /***/ }),
@@ -1391,6 +1392,7 @@ var SearchResult = /*#__PURE__*/function (_Display) {
     key: "bindEvents",
     value: function bindEvents() {
       (0,_Utils_ElementControl__WEBPACK_IMPORTED_MODULE_8__.onObserveElement)(this.$scrollObserver, function () {
+        _Domain_YoutubeSearchStore__WEBPACK_IMPORTED_MODULE_12__["default"].dispatch(_Constants_String__WEBPACK_IMPORTED_MODULE_10__.ACTION_TYPE.UPDATE_SEARCH_LOADING_STATUS);
         _Domain_YoutubeSearchStore__WEBPACK_IMPORTED_MODULE_12__["default"].dispatch(_Constants_String__WEBPACK_IMPORTED_MODULE_10__.ACTION_TYPE.UPDATE_SEARCH_RESULT);
       });
       this.addEvent('click', '.video-item__save-button', this.handleToggleSaveButton.bind(this));
@@ -1703,6 +1705,11 @@ var YoutubeSearchStore = /*#__PURE__*/function (_Store) {
           nextPageToken: '',
           error: false
         }));
+      }), (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_8__["default"])(_stateByType, _Constants_String__WEBPACK_IMPORTED_MODULE_11__.ACTION_TYPE.UPDATE_SEARCH_LOADING_STATUS, function () {
+        _this2.setState(_objectSpread(_objectSpread({}, _this2.state), {}, {
+          isLoading: true,
+          isLoaded: false
+        }));
       }), (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_8__["default"])(_stateByType, _Constants_String__WEBPACK_IMPORTED_MODULE_11__.ACTION_TYPE.UPDATE_SEARCH_RESULT, (0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1__["default"])( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_9___default().mark(function _callee() {
         var _yield$requestYoutube, _yield$requestYoutube2, items, _yield$requestYoutube3, nextPageToken, _yield$requestYoutube4, error;
 
@@ -1840,7 +1847,7 @@ var onObserveElement = function onObserveElement($element, handler) {
       handler();
     }
   }, {
-    threshold: 1.0
+    threshold: 0.2
   });
   scrollObserver.observe($element);
 };
