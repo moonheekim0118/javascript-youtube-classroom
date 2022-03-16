@@ -873,7 +873,7 @@ var requestYoutubeSearch = /*#__PURE__*/function () {
             uri = (0,_Utils_dataManager__WEBPACK_IMPORTED_MODULE_4__.uriBuilder)(_Constants__WEBPACK_IMPORTED_MODULE_3__.YOUTUBE_SETTING.URI, {
               part: 'snippet',
               type: 'video',
-              q: encodeURIComponent(keyword),
+              q: keyword,
               maxResults: _Constants__WEBPACK_IMPORTED_MODULE_3__.YOUTUBE_SETTING.MAX_VIDEO_NUMBER,
               key: "AIzaSyDp-n_SxHdPduTRcKuQs9fuP7TM9HT4tH4",
               pageToken: pageToken
