@@ -875,7 +875,7 @@ var requestYoutubeSearch = /*#__PURE__*/function () {
               type: 'video',
               q: encodeURIComponent(keyword),
               maxResults: _Constants__WEBPACK_IMPORTED_MODULE_3__.YOUTUBE_SETTING.MAX_VIDEO_NUMBER,
-              key: "AIzaSyDgeYXwvSAyqWrRUJPR9jV8yVGLhTpeTZQ",
+              key: "AIzaSyDp-n_SxHdPduTRcKuQs9fuP7TM9HT4tH4",
               pageToken: pageToken
             });
             _context2.next = 6;
@@ -1301,7 +1301,7 @@ var SearchResult = /*#__PURE__*/function () {
             'video-id': video.id.videoId
           },
           className: 'video-item',
-          innerHTML: "<img\n          src=\"".concat(video.snippet.thumbnails.medium.url, "\"\n          alt=\"video-item-thumbnail\" class=\"video-item__thumbnail\">\n        <h4 class=\"video-item__title\">").concat(video.snippet.title, "</h4>\n        <p class=\"video-item__channel-name\">").concat(video.snippet.channelTitle, "</p>\n        <p class=\"video-item__published-date\">").concat((0,_Utils_dataManager__WEBPACK_IMPORTED_MODULE_5__.getParsedTime)(video.snippet.publishTime), "</p>\n        <button class=\"video-item__save-button button\">").concat(buttonText, "</button>")
+          innerHTML: "<img\n          src=\"".concat(video.snippet.thumbnails.medium.url, "\"\n          alt=\"video-item-thumbnail\" class=\"video-item__thumbnail\"\n          loading=\"lazy\"\n          >\n        <h4 class=\"video-item__title\">").concat(video.snippet.title, "</h4>\n        <p class=\"video-item__channel-name\">").concat(video.snippet.channelTitle, "</p>\n        <p class=\"video-item__published-date\">").concat((0,_Utils_dataManager__WEBPACK_IMPORTED_MODULE_5__.getParsedTime)(video.snippet.publishTime), "</p>\n        <button class=\"video-item__save-button button\">").concat(buttonText, "</button>")
         });
       });
     }
