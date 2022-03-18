@@ -126,12 +126,12 @@ body {
   !*** css ./node_modules/css-loader/dist/cjs.js!./src/css/snackbar.css ***!
   \************************************************************************/
 
-@keyframes fadein {
+@keyframes fadeIn {
     from {bottom: 0; opacity: 0;}
     to {bottom: 30px; opacity: 1;}
   }
 
-  @keyframes fadeout {
+  @keyframes fadeOut {
     from {bottom: 30px; opacity: 1;}
     to {bottom: 0; opacity: 0;}
   }
@@ -155,7 +155,7 @@ body {
 
 .snackbar-container.show {
     visibility: visible;
-    animation: fadein 0.5s, fadeout 0.5s 4.0s;
+    animation: fadeIn 0.6s, fadeOut 0.6s 3.5s;
 }
 
 .snackbar-container.error{
@@ -292,8 +292,11 @@ body {
 }
 
 .no-result__image {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
     width: 190px;
-    height: 140px;
+    height: 180px;
     margin-bottom: 32px;
 }
 

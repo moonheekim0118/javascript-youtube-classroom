@@ -919,6 +919,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "EVENT_TYPE": () => (/* binding */ EVENT_TYPE),
 /* harmony export */   "MESSAGE": () => (/* binding */ MESSAGE),
 /* harmony export */   "NAVIGATION": () => (/* binding */ NAVIGATION),
+/* harmony export */   "SNACKBAR_CONSIST_TIME": () => (/* binding */ SNACKBAR_CONSIST_TIME),
 /* harmony export */   "SNACKBAR_TYPE": () => (/* binding */ SNACKBAR_TYPE),
 /* harmony export */   "UI_ACTION": () => (/* binding */ UI_ACTION),
 /* harmony export */   "YOUTUBE_SEARCH_ACTION": () => (/* binding */ YOUTUBE_SEARCH_ACTION),
@@ -962,6 +963,7 @@ var SNACKBAR_TYPE = {
   ERROR: 'ERROR',
   ALERT: 'ALERT'
 };
+var SNACKBAR_CONSIST_TIME = 4000;
 
 /***/ }),
 
@@ -1004,7 +1006,7 @@ var SnackBar = /*#__PURE__*/function () {
       this.$description.textContent = message;
       this.timer = setTimeout(function () {
         _this.close();
-      }, 4000);
+      }, _Constants__WEBPACK_IMPORTED_MODULE_3__.SNACKBAR_CONSIST_TIME);
     }
   }, {
     key: "close",
@@ -1571,7 +1573,7 @@ var SearchResult = /*#__PURE__*/function () {
             'video-thumbnail': thumbnails.medium.url
           },
           className: 'list-item',
-          innerHTML: "<img\n          src=\"".concat(thumbnails.medium.url, "\"\n          alt=\"video-item-thumbnail\" class=\"list-item__thumbnail\"\n          loading=\"lazy\"\n          >\n        <h4 class=\"list-item__title\">").concat(title, "</h4>\n        <p class=\"list-item__channel-name\">").concat(channelTitle, "</p>\n        <p class=\"list-item__published-date\">").concat((0,_Utils_dataManager__WEBPACK_IMPORTED_MODULE_5__.getParsedTime)(publishTime), "</p>\n        ").concat(isSaved ? '' : '<button class="list-item__save-button button" type="button" aria-label="save video">⬇ 나중에 보기</button>')
+          innerHTML: "<img\n          src=\"".concat(thumbnails.medium.url, "\"\n          alt=\"video-item-thumbnail\" class=\"list-item__thumbnail\"\n          loading=\"lazy\"\n          >\n        <h4 class=\"list-item__title\">").concat(title, "</h4>\n        <p class=\"list-item__channel-name\">").concat(channelTitle, "</p>\n        <p class=\"list-item__published-date\">").concat((0,_Utils_dataManager__WEBPACK_IMPORTED_MODULE_5__.getParsedTime)(publishTime), "</p>\n        ").concat(isSaved ? '' : '<button class="list-item__save-button button" type="button" aria-label="save video">⬇ 저장</button>')
         });
       });
     }
