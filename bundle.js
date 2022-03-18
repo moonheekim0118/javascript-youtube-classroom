@@ -1134,7 +1134,7 @@ var MainContents = /*#__PURE__*/function () {
             'video-id': id
           },
           className: 'list-item',
-          innerHTML: "<img\n        src=\"".concat(videoThumbnail, "\"\n        alt=\"video-item-thumbnail\" class=\"list-item__thumbnail\"\n        loading=\"lazy\"\n        >\n      <h4 class=\"list-item__title\">").concat(videoTitle, "</h4>\n      <p class=\"list-item__channel-name\">").concat(videoChanneltitle, "</p>\n      <p class=\"list-item__published-date\">").concat((0,_Utils_dataManager__WEBPACK_IMPORTED_MODULE_5__.getParsedTime)(videoPublishtime), "</p>\n      <button id=\"toggle-watched-button\" class=\"list-item__toggle-button ").concat(watched ? 'watched' : '', "\" type=\"button\">\u2705</button>\n      <button id=\"remove-video-button\" class=\"list-item__remove-button\" type=\"button\">\uD83D\uDDD1\uFE0F</button>\n     ")
+          innerHTML: "<img\n        src=\"".concat(videoThumbnail, "\"\n        alt=\"video-item-thumbnail\" class=\"list-item__thumbnail\"\n        loading=\"lazy\"\n        >\n      <h4 class=\"list-item__title\">").concat(videoTitle, "</h4>\n      <p class=\"list-item__channel-name\">").concat(videoChanneltitle, "</p>\n      <p class=\"list-item__published-date\">").concat((0,_Utils_dataManager__WEBPACK_IMPORTED_MODULE_5__.getParsedTime)(videoPublishtime), "</p>\n      <button id=\"toggle-watched-button\" class=\"list-item__toggle-button ").concat(watched ? 'watched' : '', "\" type=\"button\"\n      aria-label=\"toggle watch status\"\n      >\u2705</button>\n      <button id=\"remove-video-button\" class=\"list-item__remove-button\" type=\"button\" aria-label=\"delete video\">\uD83D\uDDD1\uFE0F</button>\n     ")
         });
       });
 
@@ -1571,7 +1571,7 @@ var SearchResult = /*#__PURE__*/function () {
             'video-thumbnail': thumbnails.medium.url
           },
           className: 'list-item',
-          innerHTML: "<img\n          src=\"".concat(thumbnails.medium.url, "\"\n          alt=\"video-item-thumbnail\" class=\"list-item__thumbnail\"\n          loading=\"lazy\"\n          >\n        <h4 class=\"list-item__title\">").concat(title, "</h4>\n        <p class=\"list-item__channel-name\">").concat(channelTitle, "</p>\n        <p class=\"list-item__published-date\">").concat((0,_Utils_dataManager__WEBPACK_IMPORTED_MODULE_5__.getParsedTime)(publishTime), "</p>\n        ").concat(isSaved ? '' : '<button class="list-item__save-button button">⬇ 나중에 보기</button>')
+          innerHTML: "<img\n          src=\"".concat(thumbnails.medium.url, "\"\n          alt=\"video-item-thumbnail\" class=\"list-item__thumbnail\"\n          loading=\"lazy\"\n          >\n        <h4 class=\"list-item__title\">").concat(title, "</h4>\n        <p class=\"list-item__channel-name\">").concat(channelTitle, "</p>\n        <p class=\"list-item__published-date\">").concat((0,_Utils_dataManager__WEBPACK_IMPORTED_MODULE_5__.getParsedTime)(publishTime), "</p>\n        ").concat(isSaved ? '' : '<button class="list-item__save-button button" type="button" aria-label="save video">⬇ 나중에 보기</button>')
         });
       });
     }
