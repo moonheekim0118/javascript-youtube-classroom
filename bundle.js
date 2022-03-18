@@ -916,8 +916,11 @@ var requestYoutubeSearch = /*#__PURE__*/function () {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "ERROR_MESSAGE": () => (/* binding */ ERROR_MESSAGE),
 /* harmony export */   "EVENT_TYPE": () => (/* binding */ EVENT_TYPE),
+/* harmony export */   "MESSAGE": () => (/* binding */ MESSAGE),
+/* harmony export */   "NAVIGATION": () => (/* binding */ NAVIGATION),
+/* harmony export */   "SNACKBAR_TYPE": () => (/* binding */ SNACKBAR_TYPE),
+/* harmony export */   "UI_ACTION": () => (/* binding */ UI_ACTION),
 /* harmony export */   "YOUTUBE_SEARCH_ACTION": () => (/* binding */ YOUTUBE_SEARCH_ACTION),
 /* harmony export */   "YOUTUBE_SETTING": () => (/* binding */ YOUTUBE_SETTING)
 /* harmony export */ });
@@ -927,9 +930,23 @@ var YOUTUBE_SEARCH_ACTION = {
   UPDATE_SEARCH_RESULT_SUCCESS: 'UPDATE_SEARCH_RESULT_SUCCESS',
   UPDATE_SEARCH_RESULT_FAIL: 'UPDATE_SEARCH_RESULT_FAIL'
 };
-var ERROR_MESSAGE = {
-  EMPTY_SEARCH_KEYWORD: '검색어를 입력해주세요.',
-  MAX_SAVE_VIDEO: '동영상은 최대 100개까지 저장할 수 있습니다.'
+var UI_ACTION = {
+  OPEN_MODAL: 'OPEN_MODAL',
+  CLOSE_MODAL: 'CLOSE_MODAL',
+  SELECT_PAGE: 'SELECT_PAGE'
+};
+var NAVIGATION = {
+  WATCH_LATER: 'watchLater',
+  WATCHED: 'watched',
+  SEARCH_MODAL: 'searchModal'
+};
+var MESSAGE = {
+  SERVER_ERROR: '서버에서 에러가 발생했어요!',
+  EMPTY_SEARCH_KEYWORD: '검색어를 입력해주세요!',
+  MAX_SAVE_VIDEO: '동영상은 최대 100개까지 저장할 수 있습니다.💦',
+  SAVE_COMPLETE: '성공적으로 저장되었습니다!🥳',
+  CONFIRM_REMOVE_VIDEO: '정말 삭제하시겠습니까?',
+  REMOVE_COMPLETE: '동영상이 삭제되었습니다.👻'
 };
 var YOUTUBE_SETTING = {
   URI: 'https://www.googleapis.com/youtube/v3/search',
@@ -941,13 +958,212 @@ var EVENT_TYPE = {
   INPUT: 'input',
   SUBMIT: 'submit'
 };
+var SNACKBAR_TYPE = {
+  ERROR: 'ERROR',
+  ALERT: 'ALERT'
+};
 
 /***/ }),
 
-/***/ "./src/js/display/Share/Modal.js":
-/*!***************************************!*\
-  !*** ./src/js/display/Share/Modal.js ***!
-  \***************************************/
+/***/ "./src/js/display/Share/SnackBar.js":
+/*!******************************************!*\
+  !*** ./src/js/display/Share/SnackBar.js ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ "./node_modules/@babel/runtime/helpers/esm/classCallCheck.js");
+/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/createClass */ "./node_modules/@babel/runtime/helpers/esm/createClass.js");
+/* harmony import */ var _Utils_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @Utils/dom */ "./src/js/utils/dom.js");
+/* harmony import */ var _Constants__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @Constants */ "./src/js/constants.js");
+
+
+
+
+
+var SnackBar = /*#__PURE__*/function () {
+  function SnackBar() {
+    (0,_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0__["default"])(this, SnackBar);
+
+    this.container = (0,_Utils_dom__WEBPACK_IMPORTED_MODULE_2__.$)('#snackbar');
+    this.$description = (0,_Utils_dom__WEBPACK_IMPORTED_MODULE_2__.$)('#snackbar-description', this.container);
+    this.timer;
+  }
+
+  (0,_babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1__["default"])(SnackBar, [{
+    key: "open",
+    value: function open(message, type) {
+      var _this = this;
+
+      this.container.classList.add('show');
+      type === _Constants__WEBPACK_IMPORTED_MODULE_3__.SNACKBAR_TYPE.ERROR ? this.container.classList.add('error') : this.container.classList.remove('error');
+      this.$description.textContent = message;
+      this.timer = setTimeout(function () {
+        _this.close();
+      }, 4000);
+    }
+  }, {
+    key: "close",
+    value: function close() {
+      this.container.classList.remove('show');
+      clearTimeout(this.timer);
+    }
+  }]);
+
+  return SnackBar;
+}();
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new SnackBar());
+
+/***/ }),
+
+/***/ "./src/js/display/YoutubeClassRoom/MainContents.js":
+/*!*********************************************************!*\
+  !*** ./src/js/display/YoutubeClassRoom/MainContents.js ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ MainContents)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/toConsumableArray */ "./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js");
+/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ "./node_modules/@babel/runtime/helpers/esm/classCallCheck.js");
+/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/createClass */ "./node_modules/@babel/runtime/helpers/esm/createClass.js");
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/esm/defineProperty.js");
+/* harmony import */ var _Utils_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @Utils/dom */ "./src/js/utils/dom.js");
+/* harmony import */ var _Utils_dataManager__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @Utils/dataManager */ "./src/js/utils/dataManager.js");
+/* harmony import */ var _Constants__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @Constants */ "./src/js/constants.js");
+/* harmony import */ var _Domain_YoutubeSaveStorage__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @Domain/YoutubeSaveStorage */ "./src/js/domain/YoutubeSaveStorage.js");
+/* harmony import */ var _Domain_UIStore__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @Domain/UIStore */ "./src/js/domain/UIStore.js");
+/* harmony import */ var _Images_not_saved_jpeg__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @Images/not_saved.jpeg */ "./src/assets/images/not_saved.jpeg");
+/* harmony import */ var _Share_SnackBar__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../Share/SnackBar */ "./src/js/display/Share/SnackBar.js");
+
+
+
+
+
+
+
+
+
+
+
+
+var MainContents = /*#__PURE__*/function () {
+  function MainContents() {
+    var _this = this;
+
+    (0,_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1__["default"])(this, MainContents);
+
+    (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_3__["default"])(this, "handleClickRemoveButton", function (_ref) {
+      var $target = _ref.target;
+      var videoId = $target.closest('.list-item').dataset.videoId;
+
+      if (confirm(_Constants__WEBPACK_IMPORTED_MODULE_6__.MESSAGE.CONFIRM_REMOVE_VIDEO)) {
+        _Domain_YoutubeSaveStorage__WEBPACK_IMPORTED_MODULE_7__["default"].removeVideo(videoId);
+        _Share_SnackBar__WEBPACK_IMPORTED_MODULE_10__["default"].open(_Constants__WEBPACK_IMPORTED_MODULE_6__.MESSAGE.REMOVE_COMPLETE, _Constants__WEBPACK_IMPORTED_MODULE_6__.SNACKBAR_TYPE.ALERT);
+      }
+    });
+
+    (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_3__["default"])(this, "handleToggleWatched", function (_ref2) {
+      var $target = _ref2.target;
+      var videoId = $target.closest('.list-item').dataset.videoId;
+      _Domain_YoutubeSaveStorage__WEBPACK_IMPORTED_MODULE_7__["default"].toggleVideoWatchStatus(videoId);
+    });
+
+    (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_3__["default"])(this, "render", function () {
+      _this.container.replaceChildren();
+
+      _this.$videoList.replaceChildren();
+
+      var _UIStore$getState = _Domain_UIStore__WEBPACK_IMPORTED_MODULE_8__["default"].getState(),
+          selectedPage = _UIStore$getState.selectedPage;
+
+      var list = selectedPage === _Constants__WEBPACK_IMPORTED_MODULE_6__.NAVIGATION.WATCH_LATER ? _Domain_YoutubeSaveStorage__WEBPACK_IMPORTED_MODULE_7__["default"].getWatchLaterList() : _Domain_YoutubeSaveStorage__WEBPACK_IMPORTED_MODULE_7__["default"].getWatchedList();
+      var $fragment = document.createDocumentFragment();
+      list.length === 0 ? $fragment.append(_this.getNoResults()) : $fragment.append(_this.getVideoList(list, selectedPage === _Constants__WEBPACK_IMPORTED_MODULE_6__.NAVIGATION.WATCHED));
+
+      _this.container.append($fragment);
+    });
+
+    this.container = (0,_Utils_dom__WEBPACK_IMPORTED_MODULE_4__.$)('#main-contents');
+    this.$videoList = (0,_Utils_dom__WEBPACK_IMPORTED_MODULE_4__.createElement)('UL', {
+      className: 'classroom-main__list',
+      id: 'saved-video-list'
+    });
+    _Domain_UIStore__WEBPACK_IMPORTED_MODULE_8__["default"].addSubscriber(this.render, ['selectedPage']);
+    _Domain_YoutubeSaveStorage__WEBPACK_IMPORTED_MODULE_7__["default"].addSubscriber(this.render);
+    this.bindEvents();
+    this.render();
+  }
+
+  (0,_babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2__["default"])(MainContents, [{
+    key: "bindEvents",
+    value: function bindEvents() {
+      (0,_Utils_dom__WEBPACK_IMPORTED_MODULE_4__.addEvent)(this.container, {
+        eventType: _Constants__WEBPACK_IMPORTED_MODULE_6__.EVENT_TYPE.CLICK,
+        selector: '#remove-video-button',
+        handler: this.handleClickRemoveButton
+      });
+      (0,_Utils_dom__WEBPACK_IMPORTED_MODULE_4__.addEvent)(this.container, {
+        eventType: _Constants__WEBPACK_IMPORTED_MODULE_6__.EVENT_TYPE.CLICK,
+        selector: '#toggle-watched-button',
+        handler: this.handleToggleWatched
+      });
+    }
+  }, {
+    key: "getVideoList",
+    value: function getVideoList(videos, watched) {
+      var _this$$videoList;
+
+      var $listElements = videos.map(function (_ref3) {
+        var id = _ref3.id,
+            videoData = _ref3.videoData;
+        var videoTitle = videoData.videoTitle,
+            videoChanneltitle = videoData.videoChanneltitle,
+            videoPublishtime = videoData.videoPublishtime,
+            videoThumbnail = videoData.videoThumbnail;
+        return (0,_Utils_dom__WEBPACK_IMPORTED_MODULE_4__.createElement)('LI', {
+          dataset: {
+            'video-id': id
+          },
+          className: 'list-item',
+          innerHTML: "<img\n        src=\"".concat(videoThumbnail, "\"\n        alt=\"video-item-thumbnail\" class=\"list-item__thumbnail\"\n        loading=\"lazy\"\n        >\n      <h4 class=\"list-item__title\">").concat(videoTitle, "</h4>\n      <p class=\"list-item__channel-name\">").concat(videoChanneltitle, "</p>\n      <p class=\"list-item__published-date\">").concat((0,_Utils_dataManager__WEBPACK_IMPORTED_MODULE_5__.getParsedTime)(videoPublishtime), "</p>\n      <button id=\"toggle-watched-button\" class=\"list-item__toggle-button ").concat(watched ? 'watched' : '', "\" type=\"button\">\u2705</button>\n      <button id=\"remove-video-button\" class=\"list-item__remove-button\" type=\"button\">\uD83D\uDDD1\uFE0F</button>\n     ")
+        });
+      });
+
+      (_this$$videoList = this.$videoList).append.apply(_this$$videoList, (0,_babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__["default"])($listElements));
+
+      return this.$videoList;
+    }
+  }, {
+    key: "getNoResults",
+    value: function getNoResults() {
+      return (0,_Utils_dom__WEBPACK_IMPORTED_MODULE_4__.createElement)('IMG', {
+        className: 'no-save__image',
+        alt: 'no save image',
+        src: _Images_not_saved_jpeg__WEBPACK_IMPORTED_MODULE_9__["default"]
+      });
+    }
+  }]);
+
+  return MainContents;
+}();
+
+
+
+/***/ }),
+
+/***/ "./src/js/display/YoutubeClassRoom/Modal.js":
+/*!**************************************************!*\
+  !*** ./src/js/display/YoutubeClassRoom/Modal.js ***!
+  \**************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -960,6 +1176,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/esm/defineProperty.js");
 /* harmony import */ var _Utils_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @Utils/dom */ "./src/js/utils/dom.js");
 /* harmony import */ var _Constants__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @Constants */ "./src/js/constants.js");
+/* harmony import */ var _Domain_UIStore__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @Domain/UIStore */ "./src/js/domain/UIStore.js");
+
 
 
 
@@ -973,13 +1191,30 @@ var Modal = /*#__PURE__*/function () {
     (0,_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0__["default"])(this, Modal);
 
     (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_2__["default"])(this, "handleCloseModal", function () {
+      _Domain_UIStore__WEBPACK_IMPORTED_MODULE_5__["default"].dispatch(_Constants__WEBPACK_IMPORTED_MODULE_4__.UI_ACTION.CLOSE_MODAL);
+    });
+
+    (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_2__["default"])(this, "render", function () {
+      var _UIStore$getState = _Domain_UIStore__WEBPACK_IMPORTED_MODULE_5__["default"].getState(),
+          isModalOpened = _UIStore$getState.isModalOpened;
+
+      if (isModalOpened) {
+        _this.container.classList.remove('hide');
+
+        _this.$modal.classList.add('show');
+
+        return;
+      }
+
       _this.container.classList.add('hide');
 
-      (0,_Utils_dom__WEBPACK_IMPORTED_MODULE_3__.$)('.modal-content.show', _this.container).classList.remove('show');
+      _this.$modal.classList.remove('show');
     });
 
     this.container = (0,_Utils_dom__WEBPACK_IMPORTED_MODULE_3__.$)('#modal');
+    this.$modal = (0,_Utils_dom__WEBPACK_IMPORTED_MODULE_3__.$)('#search-modal');
     this.bindEvents();
+    _Domain_UIStore__WEBPACK_IMPORTED_MODULE_5__["default"].addSubscriber(this.render, ['isModalOpened']);
   }
 
   (0,_babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1__["default"])(Modal, [{
@@ -1016,6 +1251,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/esm/defineProperty.js");
 /* harmony import */ var _Utils_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @Utils/dom */ "./src/js/utils/dom.js");
 /* harmony import */ var _Constants__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @Constants */ "./src/js/constants.js");
+/* harmony import */ var _Domain_UIStore__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @Domain/UIStore */ "./src/js/domain/UIStore.js");
+
 
 
 
@@ -1024,17 +1261,28 @@ __webpack_require__.r(__webpack_exports__);
 
 var Navigation = /*#__PURE__*/function () {
   function Navigation() {
+    var _this = this;
+
     (0,_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0__["default"])(this, Navigation);
 
-    (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_2__["default"])(this, "handleOpenModal", function (_ref) {
+    (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_2__["default"])(this, "handleClickNavigation", function (_ref) {
       var $target = _ref.target;
-      var modalId = $target.dataset.modal;
-      var $modalContainer = (0,_Utils_dom__WEBPACK_IMPORTED_MODULE_3__.$)('#modal');
-      $modalContainer.classList.remove('hide');
-      (0,_Utils_dom__WEBPACK_IMPORTED_MODULE_3__.$)("#".concat(modalId), $modalContainer).classList.add('show');
+      var navigation = $target.dataset.navigation;
+      if (!navigation) return;
+
+      if (navigation === _Constants__WEBPACK_IMPORTED_MODULE_4__.NAVIGATION.SEARCH_MODAL) {
+        _Domain_UIStore__WEBPACK_IMPORTED_MODULE_5__["default"].dispatch(_Constants__WEBPACK_IMPORTED_MODULE_4__.UI_ACTION.OPEN_MODAL);
+        return;
+      }
+
+      _this.selectNavigation(navigation);
+
+      _Domain_UIStore__WEBPACK_IMPORTED_MODULE_5__["default"].dispatch(_Constants__WEBPACK_IMPORTED_MODULE_4__.UI_ACTION.SELECT_PAGE, navigation);
     });
 
     this.container = (0,_Utils_dom__WEBPACK_IMPORTED_MODULE_3__.$)('#classroom-navigation');
+    this.$watchLaterNavigation = (0,_Utils_dom__WEBPACK_IMPORTED_MODULE_3__.$)('#watch-later-list-button', this.container);
+    this.$watchedNavigation = (0,_Utils_dom__WEBPACK_IMPORTED_MODULE_3__.$)('#watched-list-button', this.container);
     this.bindEvents();
   }
 
@@ -1043,9 +1291,21 @@ var Navigation = /*#__PURE__*/function () {
     value: function bindEvents() {
       (0,_Utils_dom__WEBPACK_IMPORTED_MODULE_3__.addEvent)(this.container, {
         eventType: _Constants__WEBPACK_IMPORTED_MODULE_4__.EVENT_TYPE.CLICK,
-        selector: '#search-modal-button',
-        handler: this.handleOpenModal
+        selector: '#classroom-navigation',
+        handler: this.handleClickNavigation
       });
+    }
+  }, {
+    key: "selectNavigation",
+    value: function selectNavigation(navigation) {
+      if (navigation === _Constants__WEBPACK_IMPORTED_MODULE_4__.NAVIGATION.WATCH_LATER) {
+        this.$watchedNavigation.classList.remove('selected');
+        this.$watchLaterNavigation.classList.add('selected');
+        return;
+      }
+
+      this.$watchLaterNavigation.classList.remove('selected');
+      this.$watchedNavigation.classList.add('selected');
     }
   }]);
 
@@ -1100,14 +1360,14 @@ var SearchForm = /*#__PURE__*/function () {
 
     (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_2__["default"])(this, "handleSubmitForm", function (event) {
       event.preventDefault();
-      var newKeyword = (0,_Utils_dom__WEBPACK_IMPORTED_MODULE_3__.$)('#search-input-keyword', _this.container).value;
+      var newKeyword = (0,_Utils_dom__WEBPACK_IMPORTED_MODULE_3__.$)('#search-input-keyword', _this.container).value.trim();
 
       var _YoutubeSearchStore$g = _Domain_YoutubeSearchStore__WEBPACK_IMPORTED_MODULE_7__["default"].getState(),
           isLoading = _YoutubeSearchStore$g.isLoading,
           beforeKeyword = _YoutubeSearchStore$g.keyword;
 
       if ((0,_Utils_validator__WEBPACK_IMPORTED_MODULE_4__.isEmptyString)(newKeyword)) {
-        alert(_Constants__WEBPACK_IMPORTED_MODULE_5__.ERROR_MESSAGE.EMPTY_SEARCH_KEYWORD);
+        alert(_Constants__WEBPACK_IMPORTED_MODULE_5__.MESSAGE.EMPTY_SEARCH_KEYWORD);
         return;
       }
 
@@ -1167,7 +1427,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Constants__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @Constants */ "./src/js/constants.js");
 /* harmony import */ var _Domain_YoutubeSearchStore__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @Domain/YoutubeSearchStore */ "./src/js/domain/YoutubeSearchStore.js");
 /* harmony import */ var _Domain_YoutubeSaveStorage__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @Domain/YoutubeSaveStorage */ "./src/js/domain/YoutubeSaveStorage.js");
-/* harmony import */ var _Images_not_found_png__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @Images/not_found.png */ "./src/assets/images/not_found.png");
+/* harmony import */ var _Images_not_found_jpeg__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @Images/not_found.jpeg */ "./src/assets/images/not_found.jpeg");
+/* harmony import */ var _Share_SnackBar__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../Share/SnackBar */ "./src/js/display/Share/SnackBar.js");
+
 
 
 
@@ -1186,41 +1448,44 @@ var SearchResult = /*#__PURE__*/function () {
 
     (0,_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1__["default"])(this, SearchResult);
 
-    (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_3__["default"])(this, "handleToggleSaveButton", function (_ref) {
+    (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_3__["default"])(this, "handleClickSaveButton", function (_ref) {
       var $target = _ref.target;
-      var videoId = $target.closest('.video-item').dataset.videoId;
 
-      if (_Domain_YoutubeSaveStorage__WEBPACK_IMPORTED_MODULE_9__["default"].has(videoId)) {
-        _Domain_YoutubeSaveStorage__WEBPACK_IMPORTED_MODULE_9__["default"].remove(videoId);
-        $target.textContent = '⬇ 저장';
-        return;
+      try {
+        var _$target$closest$data = $target.closest('.list-item').dataset,
+            videoId = _$target$closest$data.videoId,
+            videoTitle = _$target$closest$data.videoTitle,
+            videoChanneltitle = _$target$closest$data.videoChanneltitle,
+            videoPublishtime = _$target$closest$data.videoPublishtime,
+            videoThumbnail = _$target$closest$data.videoThumbnail;
+        _Domain_YoutubeSaveStorage__WEBPACK_IMPORTED_MODULE_9__["default"].addVideo(videoId, {
+          videoTitle: videoTitle,
+          videoChanneltitle: videoChanneltitle,
+          videoPublishtime: videoPublishtime,
+          videoThumbnail: videoThumbnail
+        });
+        $target.classList.add('hide');
+        _Share_SnackBar__WEBPACK_IMPORTED_MODULE_11__["default"].open(_Constants__WEBPACK_IMPORTED_MODULE_7__.MESSAGE.SAVE_COMPLETE, _Constants__WEBPACK_IMPORTED_MODULE_7__.SNACKBAR_TYPE.ALERT);
+      } catch (error) {
+        _Share_SnackBar__WEBPACK_IMPORTED_MODULE_11__["default"].open(error, _Constants__WEBPACK_IMPORTED_MODULE_7__.SNACKBAR_TYPE.ERROR);
       }
-
-      var saveItemsCount = _Domain_YoutubeSaveStorage__WEBPACK_IMPORTED_MODULE_9__["default"].get().length;
-
-      if (saveItemsCount === _Constants__WEBPACK_IMPORTED_MODULE_7__.YOUTUBE_SETTING.MAX_SAVE_NUMBER) {
-        alert(_Constants__WEBPACK_IMPORTED_MODULE_7__.ERROR_MESSAGE.MAX_SAVE_VIDEO);
-        return;
-      }
-
-      _Domain_YoutubeSaveStorage__WEBPACK_IMPORTED_MODULE_9__["default"].add(videoId);
-      $target.textContent = '🗑 저장 취소';
     });
 
-    (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_3__["default"])(this, "render", function (_ref2) {
-      var isLoading = _ref2.isLoading,
-          isLoaded = _ref2.isLoaded,
-          items = _ref2.items,
-          error = _ref2.error;
-      _this.$videoList.innerHTML = ''; // TODO: replaceChildren으로 변경
+    (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_3__["default"])(this, "render", function () {
+      var _YoutubeSearchStore$g = _Domain_YoutubeSearchStore__WEBPACK_IMPORTED_MODULE_8__["default"].getState(),
+          isLoading = _YoutubeSearchStore$g.isLoading,
+          isLoaded = _YoutubeSearchStore$g.isLoaded,
+          items = _YoutubeSearchStore$g.items,
+          isEnded = _YoutubeSearchStore$g.isEnded,
+          error = _YoutubeSearchStore$g.error;
+
+      _this.$videoList.replaceChildren();
 
       if (error) {
-        _this.$videoList.append(_this.getResultServerError());
-
-        return;
+        _Share_SnackBar__WEBPACK_IMPORTED_MODULE_11__["default"].open(_Constants__WEBPACK_IMPORTED_MODULE_7__.MESSAGE.SERVER_ERROR, _Constants__WEBPACK_IMPORTED_MODULE_7__.SNACKBAR_TYPE.ERROR);
       }
 
-      if (items.length < 0 && isLoaded) {
+      if (items.length <= 0 && isLoaded) {
         _this.$videoList.append(_this.getResultNotFound());
 
         return;
@@ -1232,7 +1497,7 @@ var SearchResult = /*#__PURE__*/function () {
         $fragment.append.apply($fragment, (0,_babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__["default"])(_this.getVideoList(items)));
       }
 
-      if (isLoading) {
+      if (isLoading && !isEnded && !error) {
         $fragment.append.apply($fragment, (0,_babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__["default"])(_this.$skeleton));
       }
 
@@ -1263,45 +1528,50 @@ var SearchResult = /*#__PURE__*/function () {
     key: "bindEvents",
     value: function bindEvents() {
       (0,_Utils_elementController__WEBPACK_IMPORTED_MODULE_6__.onObserveElement)(this.$scrollObserver, function () {
-        var _YoutubeSearchStore$g = _Domain_YoutubeSearchStore__WEBPACK_IMPORTED_MODULE_8__["default"].getState(),
-            isLoading = _YoutubeSearchStore$g.isLoading;
+        var _YoutubeSearchStore$g2 = _Domain_YoutubeSearchStore__WEBPACK_IMPORTED_MODULE_8__["default"].getState(),
+            isLoading = _YoutubeSearchStore$g2.isLoading,
+            isEnded = _YoutubeSearchStore$g2.isEnded,
+            error = _YoutubeSearchStore$g2.error;
 
-        if (isLoading) return;
+        if (isLoading || isEnded || error) return;
         _Domain_YoutubeSearchStore__WEBPACK_IMPORTED_MODULE_8__["default"].dispatch(_Constants__WEBPACK_IMPORTED_MODULE_7__.YOUTUBE_SEARCH_ACTION.UPDATE_SEARCH_RESULT_REQUEST);
       });
       (0,_Utils_dom__WEBPACK_IMPORTED_MODULE_4__.addEvent)(this.container, {
-        eventType: 'click',
-        selector: '.video-item__save-button',
-        handler: this.handleToggleSaveButton
+        eventType: _Constants__WEBPACK_IMPORTED_MODULE_7__.EVENT_TYPE.CLICK,
+        selector: '.list-item__save-button',
+        handler: this.handleClickSaveButton
       });
     }
   }, {
     key: "getResultNotFound",
     value: function getResultNotFound() {
-      return (0,_Utils_dom__WEBPACK_IMPORTED_MODULE_4__.createElement)('DIV', {
-        className: 'no-result',
-        innerHTML: "\n        <img src=\"".concat(_Images_not_found_png__WEBPACK_IMPORTED_MODULE_10__["default"], "\" alt=\"no result image\" class=\"no-result__image\">\n        <p class=\"no-result__description\">\n          \uAC80\uC0C9 \uACB0\uACFC\uAC00 \uC5C6\uC2B5\uB2C8\uB2E4<br />\n          \uB2E4\uB978 \uD0A4\uC6CC\uB4DC\uB85C \uAC80\uC0C9\uD574\uBCF4\uC138\uC694\n        </p>\n      ")
-      });
-    }
-  }, {
-    key: "getResultServerError",
-    value: function getResultServerError() {
-      return (0,_Utils_dom__WEBPACK_IMPORTED_MODULE_4__.createElement)('DIV', {
-        className: 'no-result',
-        innerHTML: "\n        <img src=\"".concat(_Images_not_found_png__WEBPACK_IMPORTED_MODULE_10__["default"], "\" alt=\"no result image\" class=\"no-result__image\">\n        <p class=\"no-result__description\">\n          \uC11C\uBC84\uC5D0\uC11C \uC624\uB958\uAC00 \uBC1C\uC0DD\uD558\uC600\uC2B5\uB2C8\uB2E4.<br />\n          \uC7A0\uC2DC \uD6C4 \uB2E4\uC2DC \uC2DC\uB3C4\uD574\uC8FC\uC138\uC694.\n        </p>\n      ")
+      return (0,_Utils_dom__WEBPACK_IMPORTED_MODULE_4__.createElement)('IMG', {
+        className: 'no-result__image',
+        alt: 'no result image',
+        src: _Images_not_found_jpeg__WEBPACK_IMPORTED_MODULE_10__["default"]
       });
     }
   }, {
     key: "getVideoList",
     value: function getVideoList(items) {
       return items.map(function (video) {
-        var buttonText = _Domain_YoutubeSaveStorage__WEBPACK_IMPORTED_MODULE_9__["default"].has(video.id.videoId) ? '🗑 저장 취소' : '⬇ 저장';
+        var videoId = video.id.videoId;
+        var _video$snippet = video.snippet,
+            title = _video$snippet.title,
+            channelTitle = _video$snippet.channelTitle,
+            publishTime = _video$snippet.publishTime,
+            thumbnails = _video$snippet.thumbnails;
+        var isSaved = _Domain_YoutubeSaveStorage__WEBPACK_IMPORTED_MODULE_9__["default"].hasVideo(videoId);
         return (0,_Utils_dom__WEBPACK_IMPORTED_MODULE_4__.createElement)('LI', {
           dataset: {
-            'video-id': video.id.videoId
+            'video-id': videoId,
+            'video-title': title,
+            'video-channelTitle': channelTitle,
+            'video-publishTime': publishTime,
+            'video-thumbnail': thumbnails.medium.url
           },
-          className: 'video-item',
-          innerHTML: "<img\n          src=\"".concat(video.snippet.thumbnails.medium.url, "\"\n          alt=\"video-item-thumbnail\" class=\"video-item__thumbnail\"\n          loading=\"lazy\"\n          >\n        <h4 class=\"video-item__title\">").concat(video.snippet.title, "</h4>\n        <p class=\"video-item__channel-name\">").concat(video.snippet.channelTitle, "</p>\n        <p class=\"video-item__published-date\">").concat((0,_Utils_dataManager__WEBPACK_IMPORTED_MODULE_5__.getParsedTime)(video.snippet.publishTime), "</p>\n        <button class=\"video-item__save-button button\">").concat(buttonText, "</button>")
+          className: 'list-item',
+          innerHTML: "<img\n          src=\"".concat(thumbnails.medium.url, "\"\n          alt=\"video-item-thumbnail\" class=\"list-item__thumbnail\"\n          loading=\"lazy\"\n          >\n        <h4 class=\"list-item__title\">").concat(title, "</h4>\n        <p class=\"list-item__channel-name\">").concat(channelTitle, "</p>\n        <p class=\"list-item__published-date\">").concat((0,_Utils_dataManager__WEBPACK_IMPORTED_MODULE_5__.getParsedTime)(publishTime), "</p>\n        ").concat(isSaved ? '' : '<button class="list-item__save-button button">⬇ 나중에 보기</button>')
         });
       });
     }
@@ -1326,22 +1596,145 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _YoutubeClassRoom_Navigation__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./YoutubeClassRoom/Navigation */ "./src/js/display/YoutubeClassRoom/Navigation.js");
-/* harmony import */ var _Share_Modal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Share/Modal */ "./src/js/display/Share/Modal.js");
+/* harmony import */ var _YoutubeClassRoom_Modal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./YoutubeClassRoom/Modal */ "./src/js/display/YoutubeClassRoom/Modal.js");
 /* harmony import */ var _YoutubeClassRoom_SearchForm__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./YoutubeClassRoom/SearchForm */ "./src/js/display/YoutubeClassRoom/SearchForm.js");
 /* harmony import */ var _YoutubeClassRoom_SearchResult__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./YoutubeClassRoom/SearchResult */ "./src/js/display/YoutubeClassRoom/SearchResult.js");
+/* harmony import */ var _YoutubeClassRoom_MainContents__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./YoutubeClassRoom/MainContents */ "./src/js/display/YoutubeClassRoom/MainContents.js");
+
 
 
 
 
 
 var initDisplays = function initDisplays() {
-  new _Share_Modal__WEBPACK_IMPORTED_MODULE_1__["default"]();
+  new _YoutubeClassRoom_Modal__WEBPACK_IMPORTED_MODULE_1__["default"]();
+  new _YoutubeClassRoom_MainContents__WEBPACK_IMPORTED_MODULE_4__["default"]();
   new _YoutubeClassRoom_Navigation__WEBPACK_IMPORTED_MODULE_0__["default"]();
   new _YoutubeClassRoom_SearchForm__WEBPACK_IMPORTED_MODULE_2__["default"]();
   new _YoutubeClassRoom_SearchResult__WEBPACK_IMPORTED_MODULE_3__["default"]();
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (initDisplays);
+
+/***/ }),
+
+/***/ "./src/js/domain/UIStore.js":
+/*!**********************************!*\
+  !*** ./src/js/domain/UIStore.js ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ "./node_modules/@babel/runtime/helpers/esm/classCallCheck.js");
+/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/createClass */ "./node_modules/@babel/runtime/helpers/esm/createClass.js");
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/esm/defineProperty.js");
+/* harmony import */ var _Constants__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @Constants */ "./src/js/constants.js");
+
+
+
+
+var _reducer;
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_2__["default"])(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+
+
+var initialState = {
+  isModalOpened: false,
+  selectedPage: _Constants__WEBPACK_IMPORTED_MODULE_3__.NAVIGATION.WATCH_LATER
+};
+var reducer = (_reducer = {}, (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_2__["default"])(_reducer, _Constants__WEBPACK_IMPORTED_MODULE_3__.UI_ACTION.OPEN_MODAL, function (state) {
+  return _objectSpread(_objectSpread({}, state), {}, {
+    isModalOpened: true
+  });
+}), (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_2__["default"])(_reducer, _Constants__WEBPACK_IMPORTED_MODULE_3__.UI_ACTION.CLOSE_MODAL, function (state) {
+  return _objectSpread(_objectSpread({}, state), {}, {
+    isModalOpened: false
+  });
+}), (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_2__["default"])(_reducer, _Constants__WEBPACK_IMPORTED_MODULE_3__.UI_ACTION.SELECT_PAGE, function (state, page) {
+  return _objectSpread(_objectSpread({}, state), {}, {
+    selectedPage: page
+  });
+}), _reducer);
+
+var isStateChanged = function isStateChanged(_ref) {
+  var dependedStates = _ref.dependedStates,
+      beforeState = _ref.beforeState,
+      newState = _ref.newState;
+  return dependedStates.length === 0 || dependedStates.some(function (state) {
+    return beforeState[state] !== newState[state];
+  });
+};
+
+var UIStore = /*#__PURE__*/function () {
+  function UIStore(_ref2) {
+    var initialState = _ref2.initialState,
+        reducer = _ref2.reducer;
+
+    (0,_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0__["default"])(this, UIStore);
+
+    (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_2__["default"])(this, "state", {});
+
+    (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_2__["default"])(this, "subscribers", []);
+
+    this.state = initialState;
+    this.reducer = reducer;
+  }
+
+  (0,_babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1__["default"])(UIStore, [{
+    key: "getState",
+    value: function getState() {
+      return this.state;
+    }
+  }, {
+    key: "setState",
+    value: function setState(newState) {
+      var beforeState = this.state;
+      this.state = newState;
+      this.subscribers.forEach(function (_ref3) {
+        var subscriber = _ref3.subscriber,
+            dependedStates = _ref3.dependedStates;
+
+        if (isStateChanged({
+          dependedStates: dependedStates,
+          beforeState: beforeState,
+          newState: newState
+        })) {
+          subscriber();
+        }
+      });
+    }
+  }, {
+    key: "dispatch",
+    value: function dispatch(type, payload) {
+      var _this$reducer$type;
+
+      if (!this.reducer[type]) return;
+      this.setState((_this$reducer$type = this.reducer[type](this.state, payload)) !== null && _this$reducer$type !== void 0 ? _this$reducer$type : this.state);
+    }
+  }, {
+    key: "addSubscriber",
+    value: function addSubscriber(subscriber) {
+      var dependedStates = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
+      this.subscribers.push({
+        subscriber: subscriber,
+        dependedStates: dependedStates
+      });
+    }
+  }]);
+
+  return UIStore;
+}();
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new UIStore({
+  initialState: initialState,
+  reducer: reducer
+}));
 
 /***/ }),
 
@@ -1360,56 +1753,150 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ "./node_modules/@babel/runtime/helpers/esm/classCallCheck.js");
 /* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/createClass */ "./node_modules/@babel/runtime/helpers/esm/createClass.js");
 /* harmony import */ var _babel_runtime_helpers_classPrivateFieldGet__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @babel/runtime/helpers/classPrivateFieldGet */ "./node_modules/@babel/runtime/helpers/esm/classPrivateFieldGet.js");
+/* harmony import */ var _Constants__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @Constants */ "./src/js/constants.js");
 
 
 
 
+
+function _classPrivateMethodInitSpec(obj, privateSet) { _checkPrivateRedeclaration(obj, privateSet); privateSet.add(obj); }
 
 function _classPrivateFieldInitSpec(obj, privateMap, value) { _checkPrivateRedeclaration(obj, privateMap); privateMap.set(obj, value); }
 
 function _checkPrivateRedeclaration(obj, privateCollection) { if (privateCollection.has(obj)) { throw new TypeError("Cannot initialize the same private elements twice on an object"); } }
 
-var _STORAGE_NAME = /*#__PURE__*/new WeakMap();
+function _classPrivateMethodGet(receiver, privateSet, fn) { if (!privateSet.has(receiver)) { throw new TypeError("attempted to get private field on non-instance"); } return fn; }
+
+
+
+var _KEY = /*#__PURE__*/new WeakMap();
+
+var _subscribers = /*#__PURE__*/new WeakMap();
+
+var _get = /*#__PURE__*/new WeakSet();
+
+var _set = /*#__PURE__*/new WeakSet();
 
 var YoutubeSaveStorage = /*#__PURE__*/function () {
   function YoutubeSaveStorage() {
     (0,_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1__["default"])(this, YoutubeSaveStorage);
 
-    _classPrivateFieldInitSpec(this, _STORAGE_NAME, {
+    _classPrivateMethodInitSpec(this, _set);
+
+    _classPrivateMethodInitSpec(this, _get);
+
+    _classPrivateFieldInitSpec(this, _KEY, {
       writable: true,
-      value: 'YOUTUBE_CLASSROOM_SAVE_LIST'
+      value: 'YOUTUBE_CLASSROOM_LIBRARY'
+    });
+
+    _classPrivateFieldInitSpec(this, _subscribers, {
+      writable: true,
+      value: []
     });
   }
 
   (0,_babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2__["default"])(YoutubeSaveStorage, [{
-    key: "get",
-    value: function get() {
-      var _localStorage$getItem;
+    key: "addSubscriber",
+    value: function addSubscriber(subscriber) {
+      (0,_babel_runtime_helpers_classPrivateFieldGet__WEBPACK_IMPORTED_MODULE_3__["default"])(this, _subscribers).push(subscriber);
+    }
+  }, {
+    key: "getWatchedList",
+    value: function getWatchedList() {
+      return _classPrivateMethodGet(this, _get, _get2).call(this).filter(function (_ref) {
+        var watched = _ref.watched;
+        return watched;
+      });
+    }
+  }, {
+    key: "getWatchLaterList",
+    value: function getWatchLaterList() {
+      return _classPrivateMethodGet(this, _get, _get2).call(this).filter(function (_ref2) {
+        var watched = _ref2.watched;
+        return !watched;
+      });
+    }
+  }, {
+    key: "addVideo",
+    value: function addVideo(id, videoData) {
+      var list = _classPrivateMethodGet(this, _get, _get2).call(this);
 
-      var item = (_localStorage$getItem = localStorage.getItem((0,_babel_runtime_helpers_classPrivateFieldGet__WEBPACK_IMPORTED_MODULE_3__["default"])(this, _STORAGE_NAME))) !== null && _localStorage$getItem !== void 0 ? _localStorage$getItem : '[]';
-      return JSON.parse(item);
+      if (list.length >= _Constants__WEBPACK_IMPORTED_MODULE_4__.YOUTUBE_SETTING.MAX_SAVE_NUMBER) {
+        throw new Error(_Constants__WEBPACK_IMPORTED_MODULE_4__.MESSAGE.MAX_SAVE_VIDEO);
+      }
+
+      _classPrivateMethodGet(this, _set, _set2).call(this, [].concat((0,_babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__["default"])(_classPrivateMethodGet(this, _get, _get2).call(this)), [{
+        id: id,
+        videoData: videoData,
+        watched: false
+      }]));
     }
   }, {
-    key: "add",
-    value: function add(videoId) {
-      localStorage.setItem((0,_babel_runtime_helpers_classPrivateFieldGet__WEBPACK_IMPORTED_MODULE_3__["default"])(this, _STORAGE_NAME), JSON.stringify([].concat((0,_babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__["default"])(this.get()), [videoId])));
+    key: "toggleVideoWatchStatus",
+    value: function toggleVideoWatchStatus(videoId) {
+      var updatedList = _classPrivateMethodGet(this, _get, _get2).call(this, (0,_babel_runtime_helpers_classPrivateFieldGet__WEBPACK_IMPORTED_MODULE_3__["default"])(this, _KEY)).map(function (_ref3) {
+        var id = _ref3.id,
+            watched = _ref3.watched,
+            videoData = _ref3.videoData;
+
+        if (id === videoId) {
+          return {
+            id: id,
+            watched: !watched,
+            videoData: videoData
+          };
+        }
+
+        return {
+          id: id,
+          watched: watched,
+          videoData: videoData
+        };
+      });
+
+      _classPrivateMethodGet(this, _set, _set2).call(this, updatedList);
     }
   }, {
-    key: "has",
-    value: function has(videoId) {
-      return this.get().includes(videoId);
+    key: "hasVideo",
+    value: function hasVideo(videoId) {
+      return _classPrivateMethodGet(this, _get, _get2).call(this).some(function (_ref4) {
+        var id = _ref4.id;
+        return id === videoId;
+      });
     }
   }, {
-    key: "remove",
-    value: function remove(videoId) {
-      localStorage.setItem((0,_babel_runtime_helpers_classPrivateFieldGet__WEBPACK_IMPORTED_MODULE_3__["default"])(this, _STORAGE_NAME), JSON.stringify(this.get().filter(function (id) {
+    key: "isWatchedVideo",
+    value: function isWatchedVideo(videoId) {
+      return _classPrivateMethodGet(this, _get, _get2).call(this)[videoId].watched;
+    }
+  }, {
+    key: "removeVideo",
+    value: function removeVideo(videoId) {
+      _classPrivateMethodGet(this, _set, _set2).call(this, _classPrivateMethodGet(this, _get, _get2).call(this).filter(function (_ref5) {
+        var id = _ref5.id;
         return videoId !== id;
-      })));
+      }));
     }
   }]);
 
   return YoutubeSaveStorage;
 }();
+
+function _get2() {
+  var _localStorage$getItem;
+
+  var item = (_localStorage$getItem = localStorage.getItem((0,_babel_runtime_helpers_classPrivateFieldGet__WEBPACK_IMPORTED_MODULE_3__["default"])(this, _KEY))) !== null && _localStorage$getItem !== void 0 ? _localStorage$getItem : '[]';
+  return JSON.parse(item);
+}
+
+function _set2(items) {
+  localStorage.setItem((0,_babel_runtime_helpers_classPrivateFieldGet__WEBPACK_IMPORTED_MODULE_3__["default"])(this, _KEY), JSON.stringify(items));
+
+  (0,_babel_runtime_helpers_classPrivateFieldGet__WEBPACK_IMPORTED_MODULE_3__["default"])(this, _subscribers).forEach(function (subscriber) {
+    return subscriber();
+  });
+}
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new YoutubeSaveStorage());
 
@@ -1457,7 +1944,8 @@ var initialState = {
   isLoaded: false,
   items: [],
   nextPageToken: '',
-  error: false
+  error: false,
+  isEnded: false
 };
 var reducer = (_reducer = {}, (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_4__["default"])(_reducer, _Constants__WEBPACK_IMPORTED_MODULE_6__.YOUTUBE_SEARCH_ACTION.UPDATE_SEARCH_KEYWORD, function (state, searchKeyword) {
   return _objectSpread(_objectSpread({}, state), {}, {
@@ -1476,10 +1964,12 @@ var reducer = (_reducer = {}, (0,_babel_runtime_helpers_defineProperty__WEBPACK_
   });
 }), (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_4__["default"])(_reducer, _Constants__WEBPACK_IMPORTED_MODULE_6__.YOUTUBE_SEARCH_ACTION.UPDATE_SEARCH_RESULT_SUCCESS, function (state, _ref) {
   var items = _ref.items,
-      nextPageToken = _ref.nextPageToken;
+      nextPageToken = _ref.nextPageToken,
+      pageInfo = _ref.pageInfo;
   return _objectSpread(_objectSpread({}, state), {}, {
     items: [].concat((0,_babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_3__["default"])(state.items), (0,_babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_3__["default"])(items)),
     nextPageToken: nextPageToken,
+    isEnded: pageInfo.totalResults <= items.length || !nextPageToken,
     isLoading: false,
     isLoaded: true,
     error: false
@@ -1487,7 +1977,7 @@ var reducer = (_reducer = {}, (0,_babel_runtime_helpers_defineProperty__WEBPACK_
 }), (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_4__["default"])(_reducer, _Constants__WEBPACK_IMPORTED_MODULE_6__.YOUTUBE_SEARCH_ACTION.UPDATE_SEARCH_RESULT_FAIL, function (state) {
   return _objectSpread(_objectSpread({}, state), {}, {
     isLoading: false,
-    isLoaded: false,
+    isLoaded: true,
     error: true
   });
 }), _reducer);
@@ -1515,7 +2005,6 @@ var middleware = (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODU
 }());
 
 var YoutubeSearchStore = /*#__PURE__*/function () {
-  // eslint-disable-next-line no-shadow
   function YoutubeSearchStore(_ref3) {
     var initialState = _ref3.initialState,
         reducer = _ref3.reducer,
@@ -1540,11 +2029,9 @@ var YoutubeSearchStore = /*#__PURE__*/function () {
   }, {
     key: "setState",
     value: function setState(newState) {
-      var _this = this;
-
       this.state = newState;
       this.subscribers.forEach(function (subscriber) {
-        return subscriber(_this.state);
+        return subscriber();
       });
     }
   }, {
@@ -1722,10 +2209,10 @@ var isSameKeyword = function isSameKeyword(beforeKeyword, newKeyword) {
 
 /***/ }),
 
-/***/ "./src/assets/images/not_found.png":
-/*!*****************************************!*\
-  !*** ./src/assets/images/not_found.png ***!
-  \*****************************************/
+/***/ "./src/assets/images/not_found.jpeg":
+/*!******************************************!*\
+  !*** ./src/assets/images/not_found.jpeg ***!
+  \******************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1733,14 +2220,29 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "6a8b7db4b5b4659f9362f35b5267b2b3.png");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "187c4faa75a364aa2f11b2bce8f50def.jpeg");
 
 /***/ }),
 
-/***/ "./src/scss/index.scss":
-/*!*****************************!*\
-  !*** ./src/scss/index.scss ***!
-  \*****************************/
+/***/ "./src/assets/images/not_saved.jpeg":
+/*!******************************************!*\
+  !*** ./src/assets/images/not_saved.jpeg ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "7b96566343731de932b5fa1973343d55.jpeg");
+
+/***/ }),
+
+/***/ "./src/css/index.css":
+/*!***************************!*\
+  !*** ./src/css/index.css ***!
+  \***************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -2278,7 +2780,7 @@ var __webpack_exports__ = {};
   \*************************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Display__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @Display */ "./src/js/display/index.js");
-/* harmony import */ var _scss_index_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../scss/index.scss */ "./src/scss/index.scss");
+/* harmony import */ var _css_index_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../css/index.css */ "./src/css/index.css");
 
 
 (0,_Display__WEBPACK_IMPORTED_MODULE_0__["default"])();
