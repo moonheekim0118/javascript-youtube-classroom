@@ -875,7 +875,7 @@ var requestYoutubeSearch = /*#__PURE__*/function () {
               type: 'video',
               q: keyword,
               maxResults: _Constants__WEBPACK_IMPORTED_MODULE_3__.YOUTUBE_SETTING.MAX_VIDEO_NUMBER,
-              key: "AIzaSyDp-n_SxHdPduTRcKuQs9fuP7TM9HT4tH4",
+              key: "AIzaSyB77_WyZvKvxR9pkS_JVEHk83Cr-JoHTGY",
               pageToken: pageToken
             });
             _context2.next = 6;
