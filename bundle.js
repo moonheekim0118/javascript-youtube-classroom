@@ -776,6 +776,394 @@ module.exports = __webpack_require__(/*! regenerator-runtime */ "./node_modules/
 
 /***/ }),
 
+/***/ "./src/js/Store/LibraryStore.js":
+/*!**************************************!*\
+  !*** ./src/js/Store/LibraryStore.js ***!
+  \**************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ "./node_modules/@babel/runtime/helpers/esm/classCallCheck.js");
+/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/createClass */ "./node_modules/@babel/runtime/helpers/esm/createClass.js");
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/esm/defineProperty.js");
+/* harmony import */ var _Storage__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @Storage */ "./src/js/storage/index.js");
+/* harmony import */ var _Constants__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @Constants */ "./src/js/constants.js");
+
+
+
+
+var _reducer;
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_2__["default"])(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+
+
+
+var libraryStorage = new _Storage__WEBPACK_IMPORTED_MODULE_3__["default"]('YOUTUBE_CLASSROOM_LIBRARY');
+var initialState = {
+  videoList: libraryStorage.read()
+};
+var reducer = (_reducer = {}, (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_2__["default"])(_reducer, _Constants__WEBPACK_IMPORTED_MODULE_4__.LIBRARY_ACTION.TOGGLE_WATCH_STATUS, function (state, id) {
+  var originItem = state.videoList.find(function (_ref) {
+    var videoId = _ref.id;
+    return videoId === id;
+  });
+
+  var updatedItem = _objectSpread(_objectSpread({}, originItem), {}, {
+    watched: !originItem.watched
+  });
+
+  libraryStorage.update(id, updatedItem);
+  return _objectSpread(_objectSpread({}, state), {}, {
+    videoList: libraryStorage.read()
+  });
+}), (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_2__["default"])(_reducer, _Constants__WEBPACK_IMPORTED_MODULE_4__.LIBRARY_ACTION.SAVE_VIDEO, function (state, item) {
+  if (state.videoList.length >= _Constants__WEBPACK_IMPORTED_MODULE_4__.YOUTUBE_SETTING.MAX_SAVE_NUMBER) {
+    throw new Error(_Constants__WEBPACK_IMPORTED_MODULE_4__.MESSAGE.MAX_SAVE_VIDEO);
+  }
+
+  libraryStorage.create(item);
+  return _objectSpread(_objectSpread({}, state), {}, {
+    videoList: libraryStorage.read()
+  });
+}), (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_2__["default"])(_reducer, _Constants__WEBPACK_IMPORTED_MODULE_4__.LIBRARY_ACTION.REMOVE_VIDEO, function (state, id) {
+  libraryStorage["delete"](id);
+  return _objectSpread(_objectSpread({}, state), {}, {
+    videoList: libraryStorage.read()
+  });
+}), _reducer);
+
+var LibraryStore = /*#__PURE__*/function () {
+  function LibraryStore(initialState, reducer) {
+    (0,_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0__["default"])(this, LibraryStore);
+
+    (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_2__["default"])(this, "state", {});
+
+    (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_2__["default"])(this, "subscribers", []);
+
+    this.state = initialState;
+    this.reducer = reducer;
+  }
+
+  (0,_babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1__["default"])(LibraryStore, [{
+    key: "getState",
+    value: function getState() {
+      return this.state;
+    }
+  }, {
+    key: "setState",
+    value: function setState(newState) {
+      this.state = newState;
+      this.subscribers.forEach(function (subscriber) {
+        return subscriber();
+      });
+    }
+  }, {
+    key: "dispatch",
+    value: function dispatch(type, payload) {
+      if (!this.reducer[type]) return;
+      this.setState(this.reducer[type](this.state, payload));
+    }
+  }, {
+    key: "addSubscriber",
+    value: function addSubscriber(subscriber) {
+      this.subscribers.push(subscriber);
+    }
+  }]);
+
+  return LibraryStore;
+}();
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new LibraryStore(initialState, reducer));
+
+/***/ }),
+
+/***/ "./src/js/Store/UIStore.js":
+/*!*********************************!*\
+  !*** ./src/js/Store/UIStore.js ***!
+  \*********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ "./node_modules/@babel/runtime/helpers/esm/classCallCheck.js");
+/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/createClass */ "./node_modules/@babel/runtime/helpers/esm/createClass.js");
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/esm/defineProperty.js");
+/* harmony import */ var _Constants__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @Constants */ "./src/js/constants.js");
+
+
+
+
+var _reducer;
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_2__["default"])(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+
+
+var initialState = {
+  isModalOpened: false,
+  selectedTab: _Constants__WEBPACK_IMPORTED_MODULE_3__.NAVIGATION.WATCH_LATER
+};
+var reducer = (_reducer = {}, (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_2__["default"])(_reducer, _Constants__WEBPACK_IMPORTED_MODULE_3__.UI_ACTION.OPEN_MODAL, function (state) {
+  return _objectSpread(_objectSpread({}, state), {}, {
+    isModalOpened: true
+  });
+}), (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_2__["default"])(_reducer, _Constants__WEBPACK_IMPORTED_MODULE_3__.UI_ACTION.CLOSE_MODAL, function (state) {
+  return _objectSpread(_objectSpread({}, state), {}, {
+    isModalOpened: false
+  });
+}), (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_2__["default"])(_reducer, _Constants__WEBPACK_IMPORTED_MODULE_3__.UI_ACTION.SELECT_PAGE, function (state, page) {
+  return _objectSpread(_objectSpread({}, state), {}, {
+    selectedTab: page
+  });
+}), _reducer);
+
+var isStateChanged = function isStateChanged(_ref) {
+  var dependedStates = _ref.dependedStates,
+      beforeState = _ref.beforeState,
+      newState = _ref.newState;
+  return dependedStates.length === 0 || dependedStates.some(function (state) {
+    return beforeState[state] !== newState[state];
+  });
+};
+
+var UIStore = /*#__PURE__*/function () {
+  function UIStore(_ref2) {
+    var initialState = _ref2.initialState,
+        reducer = _ref2.reducer;
+
+    (0,_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0__["default"])(this, UIStore);
+
+    (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_2__["default"])(this, "state", {});
+
+    (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_2__["default"])(this, "subscribers", []);
+
+    this.state = initialState;
+    this.reducer = reducer;
+  }
+
+  (0,_babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1__["default"])(UIStore, [{
+    key: "getState",
+    value: function getState() {
+      return this.state;
+    }
+  }, {
+    key: "setState",
+    value: function setState(newState) {
+      var beforeState = this.state;
+      this.state = newState;
+      this.subscribers.forEach(function (_ref3) {
+        var subscriber = _ref3.subscriber,
+            dependedStates = _ref3.dependedStates;
+
+        if (isStateChanged({
+          dependedStates: dependedStates,
+          beforeState: beforeState,
+          newState: newState
+        })) {
+          subscriber();
+        }
+      });
+    }
+  }, {
+    key: "dispatch",
+    value: function dispatch(type, payload) {
+      var _this$reducer$type;
+
+      if (!this.reducer[type]) return;
+      this.setState((_this$reducer$type = this.reducer[type](this.state, payload)) !== null && _this$reducer$type !== void 0 ? _this$reducer$type : this.state);
+    }
+  }, {
+    key: "addSubscriber",
+    value: function addSubscriber(subscriber) {
+      var dependedStates = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
+      this.subscribers.push({
+        subscriber: subscriber,
+        dependedStates: dependedStates
+      });
+    }
+  }]);
+
+  return UIStore;
+}();
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new UIStore({
+  initialState: initialState,
+  reducer: reducer
+}));
+
+/***/ }),
+
+/***/ "./src/js/Store/YoutubeSearchStore.js":
+/*!********************************************!*\
+  !*** ./src/js/Store/YoutubeSearchStore.js ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ "./node_modules/@babel/runtime/helpers/esm/classCallCheck.js");
+/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/createClass */ "./node_modules/@babel/runtime/helpers/esm/createClass.js");
+/* harmony import */ var _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ "./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js");
+/* harmony import */ var _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @babel/runtime/helpers/toConsumableArray */ "./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js");
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/esm/defineProperty.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _Constants__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @Constants */ "./src/js/constants.js");
+/* harmony import */ var _Utils_dataManager__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @Utils/dataManager */ "./src/js/utils/dataManager.js");
+/* harmony import */ var _Api__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @Api */ "./src/js/api.js");
+
+
+
+
+
+
+var _reducer;
+
+
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_4__["default"])(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+
+
+
+
+var initialState = {
+  searchKeyword: '',
+  isLoading: false,
+  isLoaded: false,
+  items: [],
+  nextPageToken: '',
+  error: false,
+  isEnded: false
+};
+var reducer = (_reducer = {}, (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_4__["default"])(_reducer, _Constants__WEBPACK_IMPORTED_MODULE_6__.YOUTUBE_SEARCH_ACTION.UPDATE_SEARCH_KEYWORD, function (state, searchKeyword) {
+  return _objectSpread(_objectSpread({}, state), {}, {
+    searchKeyword: searchKeyword,
+    isLoading: true,
+    isLoaded: false,
+    items: [],
+    nextPageToken: '',
+    error: false
+  });
+}), (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_4__["default"])(_reducer, _Constants__WEBPACK_IMPORTED_MODULE_6__.YOUTUBE_SEARCH_ACTION.UPDATE_SEARCH_RESULT_REQUEST, function (state) {
+  return _objectSpread(_objectSpread({}, state), {}, {
+    isLoading: true,
+    isLoaded: false,
+    error: false
+  });
+}), (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_4__["default"])(_reducer, _Constants__WEBPACK_IMPORTED_MODULE_6__.YOUTUBE_SEARCH_ACTION.UPDATE_SEARCH_RESULT_SUCCESS, function (state, _ref) {
+  var items = _ref.items,
+      nextPageToken = _ref.nextPageToken,
+      pageInfo = _ref.pageInfo;
+  return _objectSpread(_objectSpread({}, state), {}, {
+    items: [].concat((0,_babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_3__["default"])(state.items), (0,_babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_3__["default"])((0,_Utils_dataManager__WEBPACK_IMPORTED_MODULE_7__.getParsedVideoItems)(items))),
+    nextPageToken: nextPageToken,
+    isEnded: pageInfo.totalResults <= items.length || !nextPageToken,
+    isLoading: false,
+    isLoaded: true,
+    error: false
+  });
+}), (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_4__["default"])(_reducer, _Constants__WEBPACK_IMPORTED_MODULE_6__.YOUTUBE_SEARCH_ACTION.UPDATE_SEARCH_RESULT_FAIL, function (state) {
+  return _objectSpread(_objectSpread({}, state), {}, {
+    isLoading: false,
+    isLoaded: true,
+    error: true
+  });
+}), _reducer);
+
+var middleware = (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_4__["default"])({}, _Constants__WEBPACK_IMPORTED_MODULE_6__.YOUTUBE_SEARCH_ACTION.UPDATE_SEARCH_RESULT_REQUEST, function () {
+  var _ref2 = (0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2__["default"])( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_5___default().mark(function _callee(state) {
+    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_5___default().wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            _context.next = 2;
+            return (0,_Api__WEBPACK_IMPORTED_MODULE_8__.requestYoutubeSearch)(state.searchKeyword, state.nextPageToken);
+
+          case 2:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee);
+  }));
+
+  return function (_x) {
+    return _ref2.apply(this, arguments);
+  };
+}());
+
+var YoutubeSearchStore = /*#__PURE__*/function () {
+  function YoutubeSearchStore(_ref3) {
+    var initialState = _ref3.initialState,
+        reducer = _ref3.reducer,
+        middleware = _ref3.middleware;
+
+    (0,_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0__["default"])(this, YoutubeSearchStore);
+
+    (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_4__["default"])(this, "state", {});
+
+    (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_4__["default"])(this, "subscribers", []);
+
+    this.state = initialState;
+    this.reducer = reducer;
+    this.middleware = middleware;
+  }
+
+  (0,_babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1__["default"])(YoutubeSearchStore, [{
+    key: "getState",
+    value: function getState() {
+      return this.state;
+    }
+  }, {
+    key: "setState",
+    value: function setState(newState) {
+      this.state = newState;
+      this.subscribers.forEach(function (subscriber) {
+        return subscriber();
+      });
+    }
+  }, {
+    key: "dispatch",
+    value: function dispatch(type, payload) {
+      var _this$reducer$type;
+
+      if (!this.reducer[type]) return;
+      this.setState((_this$reducer$type = this.reducer[type](this.state, payload)) !== null && _this$reducer$type !== void 0 ? _this$reducer$type : this.state);
+      this.middleware[type] && this.middleware[type](this.state, payload);
+    }
+  }, {
+    key: "addSubscriber",
+    value: function addSubscriber(subscriber) {
+      this.subscribers.push(subscriber);
+    }
+  }]);
+
+  return YoutubeSearchStore;
+}();
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new YoutubeSearchStore({
+  initialState: initialState,
+  reducer: reducer,
+  middleware: middleware
+}));
+
+/***/ }),
+
 /***/ "./src/js/api.js":
 /*!***********************!*\
   !*** ./src/js/api.js ***!
@@ -793,7 +1181,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _Constants__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @Constants */ "./src/js/constants.js");
 /* harmony import */ var _Utils_dataManager__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @Utils/dataManager */ "./src/js/utils/dataManager.js");
-/* harmony import */ var _Domain_YoutubeSearchStore__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @Domain/YoutubeSearchStore */ "./src/js/domain/YoutubeSearchStore.js");
+/* harmony import */ var _Store_YoutubeSearchStore__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @Store/YoutubeSearchStore */ "./src/js/Store/YoutubeSearchStore.js");
 
 
 
@@ -885,12 +1273,12 @@ var requestYoutubeSearch = /*#__PURE__*/function () {
 
           case 6:
             response = _context2.sent;
-            return _context2.abrupt("return", _Domain_YoutubeSearchStore__WEBPACK_IMPORTED_MODULE_5__["default"].dispatch(_Constants__WEBPACK_IMPORTED_MODULE_3__.YOUTUBE_SEARCH_ACTION.UPDATE_SEARCH_RESULT_SUCCESS, response));
+            return _context2.abrupt("return", _Store_YoutubeSearchStore__WEBPACK_IMPORTED_MODULE_5__["default"].dispatch(_Constants__WEBPACK_IMPORTED_MODULE_3__.YOUTUBE_SEARCH_ACTION.UPDATE_SEARCH_RESULT_SUCCESS, response));
 
           case 10:
             _context2.prev = 10;
             _context2.t0 = _context2["catch"](2);
-            return _context2.abrupt("return", _Domain_YoutubeSearchStore__WEBPACK_IMPORTED_MODULE_5__["default"].dispatch(_Constants__WEBPACK_IMPORTED_MODULE_3__.YOUTUBE_SEARCH_ACTION.UPDATE_SEARCH_RESULT_FAIL));
+            return _context2.abrupt("return", _Store_YoutubeSearchStore__WEBPACK_IMPORTED_MODULE_5__["default"].dispatch(_Constants__WEBPACK_IMPORTED_MODULE_3__.YOUTUBE_SEARCH_ACTION.UPDATE_SEARCH_RESULT_FAIL));
 
           case 13:
           case "end":
@@ -917,6 +1305,7 @@ var requestYoutubeSearch = /*#__PURE__*/function () {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "EVENT_TYPE": () => (/* binding */ EVENT_TYPE),
+/* harmony export */   "LIBRARY_ACTION": () => (/* binding */ LIBRARY_ACTION),
 /* harmony export */   "MESSAGE": () => (/* binding */ MESSAGE),
 /* harmony export */   "NAVIGATION": () => (/* binding */ NAVIGATION),
 /* harmony export */   "SNACKBAR_CONSIST_TIME": () => (/* binding */ SNACKBAR_CONSIST_TIME),
@@ -935,6 +1324,11 @@ var UI_ACTION = {
   OPEN_MODAL: 'OPEN_MODAL',
   CLOSE_MODAL: 'CLOSE_MODAL',
   SELECT_PAGE: 'SELECT_PAGE'
+};
+var LIBRARY_ACTION = {
+  TOGGLE_WATCH_STATUS: 'TOGGLE_WATCH_STATUS',
+  SAVE_VIDEO: 'SAVE_VIDEO',
+  REMOVE_VIDEO: 'REMOVE_VIDEO'
 };
 var NAVIGATION = {
   WATCH_LATER: 'watchLater',
@@ -991,8 +1385,7 @@ var SnackBar = /*#__PURE__*/function () {
   function SnackBar() {
     (0,_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0__["default"])(this, SnackBar);
 
-    this.container = (0,_Utils_dom__WEBPACK_IMPORTED_MODULE_2__.$)('#snackbar');
-    this.$description = (0,_Utils_dom__WEBPACK_IMPORTED_MODULE_2__.$)('#snackbar-description', this.container);
+    this.container = (0,_Utils_dom__WEBPACK_IMPORTED_MODULE_2__.$)('#snackbar-container');
     this.timer;
   }
 
@@ -1001,9 +1394,15 @@ var SnackBar = /*#__PURE__*/function () {
     value: function open(message, type) {
       var _this = this;
 
-      this.container.classList.add('show');
-      type === _Constants__WEBPACK_IMPORTED_MODULE_3__.SNACKBAR_TYPE.ERROR ? this.container.classList.add('error') : this.container.classList.remove('error');
-      this.$description.textContent = message;
+      if (this.container.childElementCount >= 3) {
+        this.close();
+      }
+
+      var snackbar = (0,_Utils_dom__WEBPACK_IMPORTED_MODULE_2__.createElement)('DIV', {
+        className: "snackbar show ".concat(type === _Constants__WEBPACK_IMPORTED_MODULE_3__.SNACKBAR_TYPE.ERROR ? 'error' : 'primary'),
+        textContent: message
+      });
+      this.container.append(snackbar);
       this.timer = setTimeout(function () {
         _this.close();
       }, _Constants__WEBPACK_IMPORTED_MODULE_3__.SNACKBAR_CONSIST_TIME);
@@ -1011,8 +1410,7 @@ var SnackBar = /*#__PURE__*/function () {
   }, {
     key: "close",
     value: function close() {
-      this.container.classList.remove('show');
-      clearTimeout(this.timer);
+      this.container.children[0].remove();
     }
   }]);
 
@@ -1041,8 +1439,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Utils_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @Utils/dom */ "./src/js/utils/dom.js");
 /* harmony import */ var _Utils_dataManager__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @Utils/dataManager */ "./src/js/utils/dataManager.js");
 /* harmony import */ var _Constants__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @Constants */ "./src/js/constants.js");
-/* harmony import */ var _Domain_YoutubeSaveStorage__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @Domain/YoutubeSaveStorage */ "./src/js/domain/YoutubeSaveStorage.js");
-/* harmony import */ var _Domain_UIStore__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @Domain/UIStore */ "./src/js/domain/UIStore.js");
+/* harmony import */ var _Store_LibraryStore__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @Store/LibraryStore */ "./src/js/Store/LibraryStore.js");
+/* harmony import */ var _Store_UIStore__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @Store/UIStore */ "./src/js/Store/UIStore.js");
 /* harmony import */ var _Images_not_saved_jpeg__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @Images/not_saved.jpeg */ "./src/assets/images/not_saved.jpeg");
 /* harmony import */ var _Share_SnackBar__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../Share/SnackBar */ "./src/js/display/Share/SnackBar.js");
 
@@ -1068,7 +1466,7 @@ var MainContents = /*#__PURE__*/function () {
       var videoId = $target.closest('.list-item').dataset.videoId;
 
       if (confirm(_Constants__WEBPACK_IMPORTED_MODULE_6__.MESSAGE.CONFIRM_REMOVE_VIDEO)) {
-        _Domain_YoutubeSaveStorage__WEBPACK_IMPORTED_MODULE_7__["default"].removeVideo(videoId);
+        _Store_LibraryStore__WEBPACK_IMPORTED_MODULE_7__["default"].dispatch(_Constants__WEBPACK_IMPORTED_MODULE_6__.LIBRARY_ACTION.REMOVE_VIDEO, videoId);
         _Share_SnackBar__WEBPACK_IMPORTED_MODULE_10__["default"].open(_Constants__WEBPACK_IMPORTED_MODULE_6__.MESSAGE.REMOVE_COMPLETE, _Constants__WEBPACK_IMPORTED_MODULE_6__.SNACKBAR_TYPE.ALERT);
       }
     });
@@ -1076,7 +1474,7 @@ var MainContents = /*#__PURE__*/function () {
     (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_3__["default"])(this, "handleToggleWatched", function (_ref2) {
       var $target = _ref2.target;
       var videoId = $target.closest('.list-item').dataset.videoId;
-      _Domain_YoutubeSaveStorage__WEBPACK_IMPORTED_MODULE_7__["default"].toggleVideoWatchStatus(videoId);
+      _Store_LibraryStore__WEBPACK_IMPORTED_MODULE_7__["default"].dispatch(_Constants__WEBPACK_IMPORTED_MODULE_6__.LIBRARY_ACTION.TOGGLE_WATCH_STATUS, videoId);
     });
 
     (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_3__["default"])(this, "render", function () {
@@ -1084,12 +1482,16 @@ var MainContents = /*#__PURE__*/function () {
 
       _this.$videoList.replaceChildren();
 
-      var _UIStore$getState = _Domain_UIStore__WEBPACK_IMPORTED_MODULE_8__["default"].getState(),
-          selectedPage = _UIStore$getState.selectedPage;
+      var _UIStore$getState = _Store_UIStore__WEBPACK_IMPORTED_MODULE_8__["default"].getState(),
+          selectedTab = _UIStore$getState.selectedTab;
 
-      var list = selectedPage === _Constants__WEBPACK_IMPORTED_MODULE_6__.NAVIGATION.WATCH_LATER ? _Domain_YoutubeSaveStorage__WEBPACK_IMPORTED_MODULE_7__["default"].getWatchLaterList() : _Domain_YoutubeSaveStorage__WEBPACK_IMPORTED_MODULE_7__["default"].getWatchedList();
+      var _LibraryStore$getStat = _Store_LibraryStore__WEBPACK_IMPORTED_MODULE_7__["default"].getState(),
+          videoList = _LibraryStore$getStat.videoList;
+
+      var isWatched = selectedTab === _Constants__WEBPACK_IMPORTED_MODULE_6__.NAVIGATION.WATCHED;
+      var filteredVideoList = (0,_Utils_dataManager__WEBPACK_IMPORTED_MODULE_5__.filterVideoByStatus)(videoList, isWatched);
       var $fragment = document.createDocumentFragment();
-      list.length === 0 ? $fragment.append(_this.getNoResults()) : $fragment.append(_this.getVideoList(list, selectedPage === _Constants__WEBPACK_IMPORTED_MODULE_6__.NAVIGATION.WATCHED));
+      filteredVideoList.length === 0 ? $fragment.append(_this.getNoResults()) : $fragment.append(_this.getVideoList(filteredVideoList, isWatched));
 
       _this.container.append($fragment);
     });
@@ -1099,8 +1501,8 @@ var MainContents = /*#__PURE__*/function () {
       className: 'classroom-main__list',
       id: 'saved-video-list'
     });
-    _Domain_UIStore__WEBPACK_IMPORTED_MODULE_8__["default"].addSubscriber(this.render, ['selectedPage']);
-    _Domain_YoutubeSaveStorage__WEBPACK_IMPORTED_MODULE_7__["default"].addSubscriber(this.render);
+    _Store_UIStore__WEBPACK_IMPORTED_MODULE_8__["default"].addSubscriber(this.render, ['selectedTab']);
+    _Store_LibraryStore__WEBPACK_IMPORTED_MODULE_7__["default"].addSubscriber(this.render);
     this.bindEvents();
     this.render();
   }
@@ -1121,7 +1523,7 @@ var MainContents = /*#__PURE__*/function () {
     }
   }, {
     key: "getVideoList",
-    value: function getVideoList(videos, watched) {
+    value: function getVideoList(videos, isWatched) {
       var _this$$videoList;
 
       var $listElements = videos.map(function (_ref3) {
@@ -1136,7 +1538,7 @@ var MainContents = /*#__PURE__*/function () {
             'video-id': id
           },
           className: 'list-item',
-          innerHTML: "<img\n        src=\"".concat(videoThumbnail, "\"\n        alt=\"video-item-thumbnail\" class=\"list-item__thumbnail\"\n        loading=\"lazy\"\n        >\n      <h4 class=\"list-item__title\">").concat(videoTitle, "</h4>\n      <p class=\"list-item__channel-name\">").concat(videoChanneltitle, "</p>\n      <p class=\"list-item__published-date\">").concat((0,_Utils_dataManager__WEBPACK_IMPORTED_MODULE_5__.getParsedTime)(videoPublishtime), "</p>\n      <button id=\"toggle-watched-button\" class=\"list-item__toggle-button ").concat(watched ? 'watched' : '', "\" type=\"button\"\n      aria-label=\"toggle watch status\"\n      >\u2705</button>\n      <button id=\"remove-video-button\" class=\"list-item__remove-button\" type=\"button\" aria-label=\"delete video\">\uD83D\uDDD1\uFE0F</button>\n     ")
+          innerHTML: "<img\n        src=\"".concat(videoThumbnail, "\"\n        alt=\"video-item-thumbnail\" class=\"list-item__thumbnail\"\n        loading=\"lazy\"\n        >\n      <h4 class=\"list-item__title\">").concat(videoTitle, "</h4>\n      <p class=\"list-item__channel-name\">").concat(videoChanneltitle, "</p>\n      <p class=\"list-item__published-date\">").concat((0,_Utils_dataManager__WEBPACK_IMPORTED_MODULE_5__.getParsedTime)(videoPublishtime), "</p>\n      <button id=\"toggle-watched-button\" class=\"list-item__toggle-button ").concat(isWatched ? 'watched' : '', "\" type=\"button\"\n      aria-label=\"toggle watch status\"\n      >\u2705</button>\n      <button id=\"remove-video-button\" class=\"list-item__remove-button\" type=\"button\" aria-label=\"delete video\">\uD83D\uDDD1\uFE0F</button>\n     ")
         });
       });
 
@@ -1178,7 +1580,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/esm/defineProperty.js");
 /* harmony import */ var _Utils_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @Utils/dom */ "./src/js/utils/dom.js");
 /* harmony import */ var _Constants__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @Constants */ "./src/js/constants.js");
-/* harmony import */ var _Domain_UIStore__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @Domain/UIStore */ "./src/js/domain/UIStore.js");
+/* harmony import */ var _Store_UIStore__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @Store/UIStore */ "./src/js/Store/UIStore.js");
 
 
 
@@ -1193,11 +1595,11 @@ var Modal = /*#__PURE__*/function () {
     (0,_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0__["default"])(this, Modal);
 
     (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_2__["default"])(this, "handleCloseModal", function () {
-      _Domain_UIStore__WEBPACK_IMPORTED_MODULE_5__["default"].dispatch(_Constants__WEBPACK_IMPORTED_MODULE_4__.UI_ACTION.CLOSE_MODAL);
+      _Store_UIStore__WEBPACK_IMPORTED_MODULE_5__["default"].dispatch(_Constants__WEBPACK_IMPORTED_MODULE_4__.UI_ACTION.CLOSE_MODAL);
     });
 
     (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_2__["default"])(this, "render", function () {
-      var _UIStore$getState = _Domain_UIStore__WEBPACK_IMPORTED_MODULE_5__["default"].getState(),
+      var _UIStore$getState = _Store_UIStore__WEBPACK_IMPORTED_MODULE_5__["default"].getState(),
           isModalOpened = _UIStore$getState.isModalOpened;
 
       if (isModalOpened) {
@@ -1216,7 +1618,7 @@ var Modal = /*#__PURE__*/function () {
     this.container = (0,_Utils_dom__WEBPACK_IMPORTED_MODULE_3__.$)('#modal');
     this.$modal = (0,_Utils_dom__WEBPACK_IMPORTED_MODULE_3__.$)('#search-modal');
     this.bindEvents();
-    _Domain_UIStore__WEBPACK_IMPORTED_MODULE_5__["default"].addSubscriber(this.render, ['isModalOpened']);
+    _Store_UIStore__WEBPACK_IMPORTED_MODULE_5__["default"].addSubscriber(this.render, ['isModalOpened']);
   }
 
   (0,_babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1__["default"])(Modal, [{
@@ -1253,7 +1655,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/esm/defineProperty.js");
 /* harmony import */ var _Utils_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @Utils/dom */ "./src/js/utils/dom.js");
 /* harmony import */ var _Constants__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @Constants */ "./src/js/constants.js");
-/* harmony import */ var _Domain_UIStore__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @Domain/UIStore */ "./src/js/domain/UIStore.js");
+/* harmony import */ var _Store_UIStore__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @Store/UIStore */ "./src/js/Store/UIStore.js");
 
 
 
@@ -1273,13 +1675,13 @@ var Navigation = /*#__PURE__*/function () {
       if (!navigation) return;
 
       if (navigation === _Constants__WEBPACK_IMPORTED_MODULE_4__.NAVIGATION.SEARCH_MODAL) {
-        _Domain_UIStore__WEBPACK_IMPORTED_MODULE_5__["default"].dispatch(_Constants__WEBPACK_IMPORTED_MODULE_4__.UI_ACTION.OPEN_MODAL);
+        _Store_UIStore__WEBPACK_IMPORTED_MODULE_5__["default"].dispatch(_Constants__WEBPACK_IMPORTED_MODULE_4__.UI_ACTION.OPEN_MODAL);
         return;
       }
 
       _this.selectNavigation(navigation);
 
-      _Domain_UIStore__WEBPACK_IMPORTED_MODULE_5__["default"].dispatch(_Constants__WEBPACK_IMPORTED_MODULE_4__.UI_ACTION.SELECT_PAGE, navigation);
+      _Store_UIStore__WEBPACK_IMPORTED_MODULE_5__["default"].dispatch(_Constants__WEBPACK_IMPORTED_MODULE_4__.UI_ACTION.SELECT_PAGE, navigation);
     });
 
     this.container = (0,_Utils_dom__WEBPACK_IMPORTED_MODULE_3__.$)('#classroom-navigation');
@@ -1336,7 +1738,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Utils_validator__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @Utils/validator */ "./src/js/utils/validator.js");
 /* harmony import */ var _Constants__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @Constants */ "./src/js/constants.js");
 /* harmony import */ var _Utils_elementController__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @Utils/elementController */ "./src/js/utils/elementController.js");
-/* harmony import */ var _Domain_YoutubeSearchStore__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @Domain/YoutubeSearchStore */ "./src/js/domain/YoutubeSearchStore.js");
+/* harmony import */ var _Store_YoutubeSearchStore__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @Store/YoutubeSearchStore */ "./src/js/Store/YoutubeSearchStore.js");
 
 
 
@@ -1364,7 +1766,7 @@ var SearchForm = /*#__PURE__*/function () {
       event.preventDefault();
       var newKeyword = (0,_Utils_dom__WEBPACK_IMPORTED_MODULE_3__.$)('#search-input-keyword', _this.container).value.trim();
 
-      var _YoutubeSearchStore$g = _Domain_YoutubeSearchStore__WEBPACK_IMPORTED_MODULE_7__["default"].getState(),
+      var _YoutubeSearchStore$g = _Store_YoutubeSearchStore__WEBPACK_IMPORTED_MODULE_7__["default"].getState(),
           isLoading = _YoutubeSearchStore$g.isLoading,
           beforeKeyword = _YoutubeSearchStore$g.keyword;
 
@@ -1377,8 +1779,8 @@ var SearchForm = /*#__PURE__*/function () {
         return;
       }
 
-      _Domain_YoutubeSearchStore__WEBPACK_IMPORTED_MODULE_7__["default"].dispatch(_Constants__WEBPACK_IMPORTED_MODULE_5__.YOUTUBE_SEARCH_ACTION.UPDATE_SEARCH_KEYWORD, newKeyword);
-      _Domain_YoutubeSearchStore__WEBPACK_IMPORTED_MODULE_7__["default"].dispatch(_Constants__WEBPACK_IMPORTED_MODULE_5__.YOUTUBE_SEARCH_ACTION.UPDATE_SEARCH_RESULT_REQUEST);
+      _Store_YoutubeSearchStore__WEBPACK_IMPORTED_MODULE_7__["default"].dispatch(_Constants__WEBPACK_IMPORTED_MODULE_5__.YOUTUBE_SEARCH_ACTION.UPDATE_SEARCH_KEYWORD, newKeyword);
+      _Store_YoutubeSearchStore__WEBPACK_IMPORTED_MODULE_7__["default"].dispatch(_Constants__WEBPACK_IMPORTED_MODULE_5__.YOUTUBE_SEARCH_ACTION.UPDATE_SEARCH_RESULT_REQUEST);
     });
 
     this.container = (0,_Utils_dom__WEBPACK_IMPORTED_MODULE_3__.$)('#search-form');
@@ -1427,8 +1829,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Utils_dataManager__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @Utils/dataManager */ "./src/js/utils/dataManager.js");
 /* harmony import */ var _Utils_elementController__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @Utils/elementController */ "./src/js/utils/elementController.js");
 /* harmony import */ var _Constants__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @Constants */ "./src/js/constants.js");
-/* harmony import */ var _Domain_YoutubeSearchStore__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @Domain/YoutubeSearchStore */ "./src/js/domain/YoutubeSearchStore.js");
-/* harmony import */ var _Domain_YoutubeSaveStorage__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @Domain/YoutubeSaveStorage */ "./src/js/domain/YoutubeSaveStorage.js");
+/* harmony import */ var _Store_YoutubeSearchStore__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @Store/YoutubeSearchStore */ "./src/js/Store/YoutubeSearchStore.js");
+/* harmony import */ var _Store_LibraryStore__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @Store/LibraryStore */ "./src/js/Store/LibraryStore.js");
 /* harmony import */ var _Images_not_found_jpeg__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @Images/not_found.jpeg */ "./src/assets/images/not_found.jpeg");
 /* harmony import */ var _Share_SnackBar__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../Share/SnackBar */ "./src/js/display/Share/SnackBar.js");
 
@@ -1460,11 +1862,15 @@ var SearchResult = /*#__PURE__*/function () {
             videoChanneltitle = _$target$closest$data.videoChanneltitle,
             videoPublishtime = _$target$closest$data.videoPublishtime,
             videoThumbnail = _$target$closest$data.videoThumbnail;
-        _Domain_YoutubeSaveStorage__WEBPACK_IMPORTED_MODULE_9__["default"].addVideo(videoId, {
-          videoTitle: videoTitle,
-          videoChanneltitle: videoChanneltitle,
-          videoPublishtime: videoPublishtime,
-          videoThumbnail: videoThumbnail
+        _Store_LibraryStore__WEBPACK_IMPORTED_MODULE_9__["default"].dispatch(_Constants__WEBPACK_IMPORTED_MODULE_7__.LIBRARY_ACTION.SAVE_VIDEO, {
+          id: videoId,
+          videoData: {
+            videoTitle: videoTitle,
+            videoChanneltitle: videoChanneltitle,
+            videoPublishtime: videoPublishtime,
+            videoThumbnail: videoThumbnail
+          },
+          watched: false
         });
         $target.classList.add('hide');
         _Share_SnackBar__WEBPACK_IMPORTED_MODULE_11__["default"].open(_Constants__WEBPACK_IMPORTED_MODULE_7__.MESSAGE.SAVE_COMPLETE, _Constants__WEBPACK_IMPORTED_MODULE_7__.SNACKBAR_TYPE.ALERT);
@@ -1474,7 +1880,7 @@ var SearchResult = /*#__PURE__*/function () {
     });
 
     (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_3__["default"])(this, "render", function () {
-      var _YoutubeSearchStore$g = _Domain_YoutubeSearchStore__WEBPACK_IMPORTED_MODULE_8__["default"].getState(),
+      var _YoutubeSearchStore$g = _Store_YoutubeSearchStore__WEBPACK_IMPORTED_MODULE_8__["default"].getState(),
           isLoading = _YoutubeSearchStore$g.isLoading,
           isLoaded = _YoutubeSearchStore$g.isLoaded,
           items = _YoutubeSearchStore$g.items,
@@ -1523,20 +1929,20 @@ var SearchResult = /*#__PURE__*/function () {
       });
     });
     this.bindEvents();
-    _Domain_YoutubeSearchStore__WEBPACK_IMPORTED_MODULE_8__["default"].addSubscriber(this.render);
+    _Store_YoutubeSearchStore__WEBPACK_IMPORTED_MODULE_8__["default"].addSubscriber(this.render);
   }
 
   (0,_babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2__["default"])(SearchResult, [{
     key: "bindEvents",
     value: function bindEvents() {
       (0,_Utils_elementController__WEBPACK_IMPORTED_MODULE_6__.onObserveElement)(this.$scrollObserver, function () {
-        var _YoutubeSearchStore$g2 = _Domain_YoutubeSearchStore__WEBPACK_IMPORTED_MODULE_8__["default"].getState(),
+        var _YoutubeSearchStore$g2 = _Store_YoutubeSearchStore__WEBPACK_IMPORTED_MODULE_8__["default"].getState(),
             isLoading = _YoutubeSearchStore$g2.isLoading,
             isEnded = _YoutubeSearchStore$g2.isEnded,
             error = _YoutubeSearchStore$g2.error;
 
         if (isLoading || isEnded || error) return;
-        _Domain_YoutubeSearchStore__WEBPACK_IMPORTED_MODULE_8__["default"].dispatch(_Constants__WEBPACK_IMPORTED_MODULE_7__.YOUTUBE_SEARCH_ACTION.UPDATE_SEARCH_RESULT_REQUEST);
+        _Store_YoutubeSearchStore__WEBPACK_IMPORTED_MODULE_8__["default"].dispatch(_Constants__WEBPACK_IMPORTED_MODULE_7__.YOUTUBE_SEARCH_ACTION.UPDATE_SEARCH_RESULT_REQUEST);
       });
       (0,_Utils_dom__WEBPACK_IMPORTED_MODULE_4__.addEvent)(this.container, {
         eventType: _Constants__WEBPACK_IMPORTED_MODULE_7__.EVENT_TYPE.CLICK,
@@ -1556,24 +1962,30 @@ var SearchResult = /*#__PURE__*/function () {
   }, {
     key: "getVideoList",
     value: function getVideoList(items) {
-      return items.map(function (video) {
-        var videoId = video.id.videoId;
-        var _video$snippet = video.snippet,
-            title = _video$snippet.title,
-            channelTitle = _video$snippet.channelTitle,
-            publishTime = _video$snippet.publishTime,
-            thumbnails = _video$snippet.thumbnails;
-        var isSaved = _Domain_YoutubeSaveStorage__WEBPACK_IMPORTED_MODULE_9__["default"].hasVideo(videoId);
+      return items.map(function (_ref2) {
+        var videoId = _ref2.videoId,
+            title = _ref2.title,
+            channelTitle = _ref2.channelTitle,
+            publishTime = _ref2.publishTime,
+            thumbnails = _ref2.thumbnails;
+
+        var _LibraryStore$getStat = _Store_LibraryStore__WEBPACK_IMPORTED_MODULE_9__["default"].getState(),
+            videoList = _LibraryStore$getStat.videoList;
+
+        var isSaved = videoList.some(function (_ref3) {
+          var id = _ref3.id;
+          return id === videoId;
+        });
         return (0,_Utils_dom__WEBPACK_IMPORTED_MODULE_4__.createElement)('LI', {
           dataset: {
             'video-id': videoId,
             'video-title': title,
             'video-channelTitle': channelTitle,
             'video-publishTime': publishTime,
-            'video-thumbnail': thumbnails.medium.url
+            'video-thumbnail': thumbnails
           },
           className: 'list-item',
-          innerHTML: "<img\n          src=\"".concat(thumbnails.medium.url, "\"\n          alt=\"video-item-thumbnail\" class=\"list-item__thumbnail\"\n          loading=\"lazy\"\n          >\n        <h4 class=\"list-item__title\">").concat(title, "</h4>\n        <p class=\"list-item__channel-name\">").concat(channelTitle, "</p>\n        <p class=\"list-item__published-date\">").concat((0,_Utils_dataManager__WEBPACK_IMPORTED_MODULE_5__.getParsedTime)(publishTime), "</p>\n        ").concat(isSaved ? '' : '<button class="list-item__save-button button" type="button" aria-label="save video">⬇ 저장</button>')
+          innerHTML: "<img\n          src=\"".concat(thumbnails, "\"\n          alt=\"video-item-thumbnail\" class=\"list-item__thumbnail\"\n          loading=\"lazy\"\n          >\n        <h4 class=\"list-item__title\">").concat(title, "</h4>\n        <p class=\"list-item__channel-name\">").concat(channelTitle, "</p>\n        <p class=\"list-item__published-date\">").concat((0,_Utils_dataManager__WEBPACK_IMPORTED_MODULE_5__.getParsedTime)(publishTime), "</p>\n        ").concat(isSaved ? '' : '<button class="list-item__save-button button" type="button" aria-label="save video">⬇ 저장</button>')
         });
       });
     }
@@ -1620,446 +2032,98 @@ var initDisplays = function initDisplays() {
 
 /***/ }),
 
-/***/ "./src/js/domain/UIStore.js":
-/*!**********************************!*\
-  !*** ./src/js/domain/UIStore.js ***!
-  \**********************************/
+/***/ "./src/js/storage/index.js":
+/*!*********************************!*\
+  !*** ./src/js/storage/index.js ***!
+  \*********************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */   "default": () => (/* binding */ Storage)
 /* harmony export */ });
-/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ "./node_modules/@babel/runtime/helpers/esm/classCallCheck.js");
-/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/createClass */ "./node_modules/@babel/runtime/helpers/esm/createClass.js");
-/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/esm/defineProperty.js");
-/* harmony import */ var _Constants__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @Constants */ "./src/js/constants.js");
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/esm/defineProperty.js");
+/* harmony import */ var _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/toConsumableArray */ "./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js");
+/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ "./node_modules/@babel/runtime/helpers/esm/classCallCheck.js");
+/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @babel/runtime/helpers/createClass */ "./node_modules/@babel/runtime/helpers/esm/createClass.js");
 
 
 
 
-var _reducer;
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_2__["default"])(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-
-
-var initialState = {
-  isModalOpened: false,
-  selectedPage: _Constants__WEBPACK_IMPORTED_MODULE_3__.NAVIGATION.WATCH_LATER
-};
-var reducer = (_reducer = {}, (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_2__["default"])(_reducer, _Constants__WEBPACK_IMPORTED_MODULE_3__.UI_ACTION.OPEN_MODAL, function (state) {
-  return _objectSpread(_objectSpread({}, state), {}, {
-    isModalOpened: true
-  });
-}), (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_2__["default"])(_reducer, _Constants__WEBPACK_IMPORTED_MODULE_3__.UI_ACTION.CLOSE_MODAL, function (state) {
-  return _objectSpread(_objectSpread({}, state), {}, {
-    isModalOpened: false
-  });
-}), (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_2__["default"])(_reducer, _Constants__WEBPACK_IMPORTED_MODULE_3__.UI_ACTION.SELECT_PAGE, function (state, page) {
-  return _objectSpread(_objectSpread({}, state), {}, {
-    selectedPage: page
-  });
-}), _reducer);
-
-var isStateChanged = function isStateChanged(_ref) {
-  var dependedStates = _ref.dependedStates,
-      beforeState = _ref.beforeState,
-      newState = _ref.newState;
-  return dependedStates.length === 0 || dependedStates.some(function (state) {
-    return beforeState[state] !== newState[state];
-  });
-};
-
-var UIStore = /*#__PURE__*/function () {
-  function UIStore(_ref2) {
-    var initialState = _ref2.initialState,
-        reducer = _ref2.reducer;
-
-    (0,_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0__["default"])(this, UIStore);
-
-    (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_2__["default"])(this, "state", {});
-
-    (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_2__["default"])(this, "subscribers", []);
-
-    this.state = initialState;
-    this.reducer = reducer;
-  }
-
-  (0,_babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1__["default"])(UIStore, [{
-    key: "getState",
-    value: function getState() {
-      return this.state;
-    }
-  }, {
-    key: "setState",
-    value: function setState(newState) {
-      var beforeState = this.state;
-      this.state = newState;
-      this.subscribers.forEach(function (_ref3) {
-        var subscriber = _ref3.subscriber,
-            dependedStates = _ref3.dependedStates;
-
-        if (isStateChanged({
-          dependedStates: dependedStates,
-          beforeState: beforeState,
-          newState: newState
-        })) {
-          subscriber();
-        }
-      });
-    }
-  }, {
-    key: "dispatch",
-    value: function dispatch(type, payload) {
-      var _this$reducer$type;
-
-      if (!this.reducer[type]) return;
-      this.setState((_this$reducer$type = this.reducer[type](this.state, payload)) !== null && _this$reducer$type !== void 0 ? _this$reducer$type : this.state);
-    }
-  }, {
-    key: "addSubscriber",
-    value: function addSubscriber(subscriber) {
-      var dependedStates = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
-      this.subscribers.push({
-        subscriber: subscriber,
-        dependedStates: dependedStates
-      });
-    }
-  }]);
-
-  return UIStore;
-}();
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new UIStore({
-  initialState: initialState,
-  reducer: reducer
-}));
-
-/***/ }),
-
-/***/ "./src/js/domain/YoutubeSaveStorage.js":
-/*!*********************************************!*\
-  !*** ./src/js/domain/YoutubeSaveStorage.js ***!
-  \*********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/toConsumableArray */ "./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js");
-/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ "./node_modules/@babel/runtime/helpers/esm/classCallCheck.js");
-/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/createClass */ "./node_modules/@babel/runtime/helpers/esm/createClass.js");
-/* harmony import */ var _babel_runtime_helpers_classPrivateFieldGet__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @babel/runtime/helpers/classPrivateFieldGet */ "./node_modules/@babel/runtime/helpers/esm/classPrivateFieldGet.js");
-/* harmony import */ var _Constants__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @Constants */ "./src/js/constants.js");
-
-
-
-
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 
 function _classPrivateMethodInitSpec(obj, privateSet) { _checkPrivateRedeclaration(obj, privateSet); privateSet.add(obj); }
-
-function _classPrivateFieldInitSpec(obj, privateMap, value) { _checkPrivateRedeclaration(obj, privateMap); privateMap.set(obj, value); }
 
 function _checkPrivateRedeclaration(obj, privateCollection) { if (privateCollection.has(obj)) { throw new TypeError("Cannot initialize the same private elements twice on an object"); } }
 
 function _classPrivateMethodGet(receiver, privateSet, fn) { if (!privateSet.has(receiver)) { throw new TypeError("attempted to get private field on non-instance"); } return fn; }
 
-
-
-var _KEY = /*#__PURE__*/new WeakMap();
-
-var _subscribers = /*#__PURE__*/new WeakMap();
-
-var _get = /*#__PURE__*/new WeakSet();
-
 var _set = /*#__PURE__*/new WeakSet();
 
-var YoutubeSaveStorage = /*#__PURE__*/function () {
-  function YoutubeSaveStorage() {
-    (0,_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1__["default"])(this, YoutubeSaveStorage);
+var Storage = /*#__PURE__*/function () {
+  function Storage(key) {
+    var storage = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : localStorage;
+
+    (0,_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_2__["default"])(this, Storage);
 
     _classPrivateMethodInitSpec(this, _set);
 
-    _classPrivateMethodInitSpec(this, _get);
-
-    _classPrivateFieldInitSpec(this, _KEY, {
-      writable: true,
-      value: 'YOUTUBE_CLASSROOM_LIBRARY'
-    });
-
-    _classPrivateFieldInitSpec(this, _subscribers, {
-      writable: true,
-      value: []
-    });
+    this.key = key;
+    this.storage = storage;
   }
 
-  (0,_babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2__["default"])(YoutubeSaveStorage, [{
-    key: "addSubscriber",
-    value: function addSubscriber(subscriber) {
-      (0,_babel_runtime_helpers_classPrivateFieldGet__WEBPACK_IMPORTED_MODULE_3__["default"])(this, _subscribers).push(subscriber);
-    }
-  }, {
-    key: "getWatchedList",
-    value: function getWatchedList() {
-      return _classPrivateMethodGet(this, _get, _get2).call(this).filter(function (_ref) {
-        var watched = _ref.watched;
-        return watched;
-      });
-    }
-  }, {
-    key: "getWatchLaterList",
-    value: function getWatchLaterList() {
-      return _classPrivateMethodGet(this, _get, _get2).call(this).filter(function (_ref2) {
-        var watched = _ref2.watched;
-        return !watched;
-      });
-    }
-  }, {
-    key: "addVideo",
-    value: function addVideo(id, videoData) {
-      var list = _classPrivateMethodGet(this, _get, _get2).call(this);
+  (0,_babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_3__["default"])(Storage, [{
+    key: "create",
+    value: function create(item) {
+      var items = this.read();
 
-      if (list.length >= _Constants__WEBPACK_IMPORTED_MODULE_4__.YOUTUBE_SETTING.MAX_SAVE_NUMBER) {
-        throw new Error(_Constants__WEBPACK_IMPORTED_MODULE_4__.MESSAGE.MAX_SAVE_VIDEO);
-      }
-
-      _classPrivateMethodGet(this, _set, _set2).call(this, [].concat((0,_babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__["default"])(_classPrivateMethodGet(this, _get, _get2).call(this)), [{
-        id: id,
-        videoData: videoData,
-        watched: false
-      }]));
+      _classPrivateMethodGet(this, _set, _set2).call(this, [].concat((0,_babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_1__["default"])(items), [item]));
     }
   }, {
-    key: "toggleVideoWatchStatus",
-    value: function toggleVideoWatchStatus(videoId) {
-      var updatedList = _classPrivateMethodGet(this, _get, _get2).call(this, (0,_babel_runtime_helpers_classPrivateFieldGet__WEBPACK_IMPORTED_MODULE_3__["default"])(this, _KEY)).map(function (_ref3) {
-        var id = _ref3.id,
-            watched = _ref3.watched,
-            videoData = _ref3.videoData;
+    key: "read",
+    value: function read() {
+      var _this$storage$getItem;
 
-        if (id === videoId) {
-          return {
-            id: id,
-            watched: !watched,
-            videoData: videoData
-          };
+      var items = (_this$storage$getItem = this.storage.getItem(this.key)) !== null && _this$storage$getItem !== void 0 ? _this$storage$getItem : '[]';
+      return JSON.parse(items);
+    }
+  }, {
+    key: "update",
+    value: function update(id, newItem) {
+      var updatedItems = this.read().map(function (item) {
+        if (item.id === id) {
+          return _objectSpread({
+            id: id
+          }, newItem);
         }
 
-        return {
-          id: id,
-          watched: watched,
-          videoData: videoData
-        };
+        return item;
       });
 
-      _classPrivateMethodGet(this, _set, _set2).call(this, updatedList);
+      _classPrivateMethodGet(this, _set, _set2).call(this, updatedItems);
     }
   }, {
-    key: "hasVideo",
-    value: function hasVideo(videoId) {
-      return _classPrivateMethodGet(this, _get, _get2).call(this).some(function (_ref4) {
-        var id = _ref4.id;
-        return id === videoId;
-      });
-    }
-  }, {
-    key: "isWatchedVideo",
-    value: function isWatchedVideo(videoId) {
-      return _classPrivateMethodGet(this, _get, _get2).call(this)[videoId].watched;
-    }
-  }, {
-    key: "removeVideo",
-    value: function removeVideo(videoId) {
-      _classPrivateMethodGet(this, _set, _set2).call(this, _classPrivateMethodGet(this, _get, _get2).call(this).filter(function (_ref5) {
-        var id = _ref5.id;
-        return videoId !== id;
+    key: "delete",
+    value: function _delete(targetId) {
+      _classPrivateMethodGet(this, _set, _set2).call(this, this.read().filter(function (_ref) {
+        var id = _ref.id;
+        return targetId !== id;
       }));
     }
   }]);
 
-  return YoutubeSaveStorage;
+  return Storage;
 }();
-
-function _get2() {
-  var _localStorage$getItem;
-
-  var item = (_localStorage$getItem = localStorage.getItem((0,_babel_runtime_helpers_classPrivateFieldGet__WEBPACK_IMPORTED_MODULE_3__["default"])(this, _KEY))) !== null && _localStorage$getItem !== void 0 ? _localStorage$getItem : '[]';
-  return JSON.parse(item);
-}
 
 function _set2(items) {
-  localStorage.setItem((0,_babel_runtime_helpers_classPrivateFieldGet__WEBPACK_IMPORTED_MODULE_3__["default"])(this, _KEY), JSON.stringify(items));
-
-  (0,_babel_runtime_helpers_classPrivateFieldGet__WEBPACK_IMPORTED_MODULE_3__["default"])(this, _subscribers).forEach(function (subscriber) {
-    return subscriber();
-  });
+  this.storage.setItem(this.key, JSON.stringify(items));
 }
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new YoutubeSaveStorage());
 
-/***/ }),
-
-/***/ "./src/js/domain/YoutubeSearchStore.js":
-/*!*********************************************!*\
-  !*** ./src/js/domain/YoutubeSearchStore.js ***!
-  \*********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ "./node_modules/@babel/runtime/helpers/esm/classCallCheck.js");
-/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/createClass */ "./node_modules/@babel/runtime/helpers/esm/createClass.js");
-/* harmony import */ var _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ "./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js");
-/* harmony import */ var _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @babel/runtime/helpers/toConsumableArray */ "./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js");
-/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/esm/defineProperty.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _Constants__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @Constants */ "./src/js/constants.js");
-/* harmony import */ var _Api__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @Api */ "./src/js/api.js");
-
-
-
-
-
-
-var _reducer;
-
-
-
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_4__["default"])(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-
-
-
-var initialState = {
-  searchKeyword: '',
-  isLoading: false,
-  isLoaded: false,
-  items: [],
-  nextPageToken: '',
-  error: false,
-  isEnded: false
-};
-var reducer = (_reducer = {}, (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_4__["default"])(_reducer, _Constants__WEBPACK_IMPORTED_MODULE_6__.YOUTUBE_SEARCH_ACTION.UPDATE_SEARCH_KEYWORD, function (state, searchKeyword) {
-  return _objectSpread(_objectSpread({}, state), {}, {
-    searchKeyword: searchKeyword,
-    isLoading: true,
-    isLoaded: false,
-    items: [],
-    nextPageToken: '',
-    error: false
-  });
-}), (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_4__["default"])(_reducer, _Constants__WEBPACK_IMPORTED_MODULE_6__.YOUTUBE_SEARCH_ACTION.UPDATE_SEARCH_RESULT_REQUEST, function (state) {
-  return _objectSpread(_objectSpread({}, state), {}, {
-    isLoading: true,
-    isLoaded: false,
-    error: false
-  });
-}), (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_4__["default"])(_reducer, _Constants__WEBPACK_IMPORTED_MODULE_6__.YOUTUBE_SEARCH_ACTION.UPDATE_SEARCH_RESULT_SUCCESS, function (state, _ref) {
-  var items = _ref.items,
-      nextPageToken = _ref.nextPageToken,
-      pageInfo = _ref.pageInfo;
-  return _objectSpread(_objectSpread({}, state), {}, {
-    items: [].concat((0,_babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_3__["default"])(state.items), (0,_babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_3__["default"])(items)),
-    nextPageToken: nextPageToken,
-    isEnded: pageInfo.totalResults <= items.length || !nextPageToken,
-    isLoading: false,
-    isLoaded: true,
-    error: false
-  });
-}), (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_4__["default"])(_reducer, _Constants__WEBPACK_IMPORTED_MODULE_6__.YOUTUBE_SEARCH_ACTION.UPDATE_SEARCH_RESULT_FAIL, function (state) {
-  return _objectSpread(_objectSpread({}, state), {}, {
-    isLoading: false,
-    isLoaded: true,
-    error: true
-  });
-}), _reducer);
-
-var middleware = (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_4__["default"])({}, _Constants__WEBPACK_IMPORTED_MODULE_6__.YOUTUBE_SEARCH_ACTION.UPDATE_SEARCH_RESULT_REQUEST, function () {
-  var _ref2 = (0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2__["default"])( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_5___default().mark(function _callee(state) {
-    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_5___default().wrap(function _callee$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            _context.next = 2;
-            return (0,_Api__WEBPACK_IMPORTED_MODULE_7__.requestYoutubeSearch)(state.searchKeyword, state.nextPageToken);
-
-          case 2:
-          case "end":
-            return _context.stop();
-        }
-      }
-    }, _callee);
-  }));
-
-  return function (_x) {
-    return _ref2.apply(this, arguments);
-  };
-}());
-
-var YoutubeSearchStore = /*#__PURE__*/function () {
-  function YoutubeSearchStore(_ref3) {
-    var initialState = _ref3.initialState,
-        reducer = _ref3.reducer,
-        middleware = _ref3.middleware;
-
-    (0,_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0__["default"])(this, YoutubeSearchStore);
-
-    (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_4__["default"])(this, "state", {});
-
-    (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_4__["default"])(this, "subscribers", []);
-
-    this.state = initialState;
-    this.reducer = reducer;
-    this.middleware = middleware;
-  }
-
-  (0,_babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1__["default"])(YoutubeSearchStore, [{
-    key: "getState",
-    value: function getState() {
-      return this.state;
-    }
-  }, {
-    key: "setState",
-    value: function setState(newState) {
-      this.state = newState;
-      this.subscribers.forEach(function (subscriber) {
-        return subscriber();
-      });
-    }
-  }, {
-    key: "dispatch",
-    value: function dispatch(type, payload) {
-      var _this$reducer$type;
-
-      if (!this.reducer[type]) return;
-      this.setState((_this$reducer$type = this.reducer[type](this.state, payload)) !== null && _this$reducer$type !== void 0 ? _this$reducer$type : this.state);
-      this.middleware[type] && this.middleware[type](this.state, payload);
-    }
-  }, {
-    key: "addSubscriber",
-    value: function addSubscriber(subscriber) {
-      this.subscribers.push(subscriber);
-    }
-  }]);
-
-  return YoutubeSearchStore;
-}();
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new YoutubeSearchStore({
-  initialState: initialState,
-  reducer: reducer,
-  middleware: middleware
-}));
 
 /***/ }),
 
@@ -2072,7 +2136,9 @@ var YoutubeSearchStore = /*#__PURE__*/function () {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "filterVideoByStatus": () => (/* binding */ filterVideoByStatus),
 /* harmony export */   "getParsedTime": () => (/* binding */ getParsedTime),
+/* harmony export */   "getParsedVideoItems": () => (/* binding */ getParsedVideoItems),
 /* harmony export */   "uriBuilder": () => (/* binding */ uriBuilder)
 /* harmony export */ });
 var getParsedTime = function getParsedTime(timeString) {
@@ -2081,6 +2147,29 @@ var getParsedTime = function getParsedTime(timeString) {
 };
 var uriBuilder = function uriBuilder(endPoint, params) {
   return "".concat(endPoint, "?").concat(new URLSearchParams(params).toString());
+};
+var filterVideoByStatus = function filterVideoByStatus(videos, status) {
+  return videos.filter(function (_ref) {
+    var watched = _ref.watched;
+    return watched === status;
+  });
+};
+var getParsedVideoItems = function getParsedVideoItems(items) {
+  return items.map(function (item) {
+    var videoId = item.id.videoId;
+    var _item$snippet = item.snippet,
+        title = _item$snippet.title,
+        channelTitle = _item$snippet.channelTitle,
+        publishTime = _item$snippet.publishTime,
+        thumbnails = _item$snippet.thumbnails;
+    return {
+      videoId: videoId,
+      title: title,
+      channelTitle: channelTitle,
+      publishTime: publishTime,
+      thumbnails: thumbnails.medium.url
+    };
+  });
 };
 
 /***/ }),
@@ -2362,27 +2451,6 @@ function _asyncToGenerator(fn) {
 
 /***/ }),
 
-/***/ "./node_modules/@babel/runtime/helpers/esm/classApplyDescriptorGet.js":
-/*!****************************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/esm/classApplyDescriptorGet.js ***!
-  \****************************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ _classApplyDescriptorGet)
-/* harmony export */ });
-function _classApplyDescriptorGet(receiver, descriptor) {
-  if (descriptor.get) {
-    return descriptor.get.call(receiver);
-  }
-
-  return descriptor.value;
-}
-
-/***/ }),
-
 /***/ "./node_modules/@babel/runtime/helpers/esm/classCallCheck.js":
 /*!*******************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/esm/classCallCheck.js ***!
@@ -2398,49 +2466,6 @@ function _classCallCheck(instance, Constructor) {
   if (!(instance instanceof Constructor)) {
     throw new TypeError("Cannot call a class as a function");
   }
-}
-
-/***/ }),
-
-/***/ "./node_modules/@babel/runtime/helpers/esm/classExtractFieldDescriptor.js":
-/*!********************************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/esm/classExtractFieldDescriptor.js ***!
-  \********************************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ _classExtractFieldDescriptor)
-/* harmony export */ });
-function _classExtractFieldDescriptor(receiver, privateMap, action) {
-  if (!privateMap.has(receiver)) {
-    throw new TypeError("attempted to " + action + " private field on non-instance");
-  }
-
-  return privateMap.get(receiver);
-}
-
-/***/ }),
-
-/***/ "./node_modules/@babel/runtime/helpers/esm/classPrivateFieldGet.js":
-/*!*************************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/esm/classPrivateFieldGet.js ***!
-  \*************************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ _classPrivateFieldGet)
-/* harmony export */ });
-/* harmony import */ var _classApplyDescriptorGet_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./classApplyDescriptorGet.js */ "./node_modules/@babel/runtime/helpers/esm/classApplyDescriptorGet.js");
-/* harmony import */ var _classExtractFieldDescriptor_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./classExtractFieldDescriptor.js */ "./node_modules/@babel/runtime/helpers/esm/classExtractFieldDescriptor.js");
-
-
-function _classPrivateFieldGet(receiver, privateMap) {
-  var descriptor = (0,_classExtractFieldDescriptor_js__WEBPACK_IMPORTED_MODULE_1__["default"])(receiver, privateMap, "get");
-  return (0,_classApplyDescriptorGet_js__WEBPACK_IMPORTED_MODULE_0__["default"])(receiver, descriptor);
 }
 
 /***/ }),
