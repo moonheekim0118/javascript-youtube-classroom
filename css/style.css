@@ -125,7 +125,15 @@ body {
 /*!************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js!./src/css/snackbar.css ***!
   \************************************************************************/
+@keyframes fadein {
+  from {bottom: 0; opacity: 0;}
+  to {bottom: 30px; opacity: 1;}
+}
 
+@keyframes fadeout {
+  from {bottom: 30px; opacity: 1;}
+  to {bottom: 0; opacity: 0;}
+}
   .snackbar-container {
     position: fixed;
     left: 50%;
@@ -150,6 +158,7 @@ body {
 
 .snackbar.show {
   visibility: visible;
+  animation: fadein 0.5s, fadeout 0.5s 3.5s;
 }
 
 .snackbar.primary{
